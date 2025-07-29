@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Preview Declaration</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+    h1, h2 { text-align: center; }
+    .section { margin-top: 20px; }
+    .signature-box { margin-top: 40px; border-top: 1px solid #ccc; padding-top: 20px; }
+    .preview-image, .preview-signature { margin-top: 10px; max-width: 300px; border: 1px solid #aaa; }
+    .form-group { margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+  <h2>Company Letterhead</h2>
+  <h1>DECLARATION OF SOURCE OF FUNDS</h1>
+  <p><strong>Date:</strong> <%= declarationDate %></p>
+  <p>
+    I, <strong><%= directorName %></strong>, in my capacity as the Director of
+    <strong><%= companyName %></strong>, hereby declare and affirm that all funds
+    transferred by our company to CRYPTO INDIA (INCRYP BLOCKCHAIN PRIVATE LIMITED),
+    in INR (Indian Currency) and any other cryptocurrency, are obtained from legitimate and legal sources.
+  </p>
+  <div class="section">
+    <p>We further declare that:</p>
+    <ol>
+      <li><strong>Legitimate Source:</strong> Funds are not linked to illegal activities.</li>
+      <li><strong>Compliance:</strong> Our company follows AML/CTF/KYC regulations.</li>
+      <li><strong>Due Diligence:</strong> We verify all parties before transactions.</li>
+      <li><strong>Ethical Standards:</strong> Business funds are transparent and lawful.</li>
+      <li><strong>Cooperation:</strong> We will fully cooperate with regulatory authorities.</li>
+    </ol>
+  </div>
+  <div class="signature-box">
+    <div class="form-group">
+      <label><strong>Photo/ID:</strong></label>
+      <% if (imagePath && imagePath.startsWith('data:')) { %>
+        <img class="preview-image" src="<%= imagePath %>" alt="Photo/ID" />
+      <% } %>
+    </div>
+    <div class="form-group">
+      <label><strong>Signature:</strong></label>
+      <% if (signaturePath && signaturePath.startsWith('data:')) { %>
+        <img class="preview-signature" src="<%= signaturePath %>" alt="Signature" />
+      <% } %>
+    </div>
+    <p><strong>Name:</strong> <%= directorName %></p>
+    <p><strong>Mobile Number:</strong> <%= mobileNumber %></p>
+    <p><strong>Date:</strong> <%= declarationDate %></p>
+    <form action="/download-pdf" method="POST">
+      <input type="hidden" name="directorName" value="<%= directorName %>" />
+      <input type="hidden" name="companyName" value="<%= companyName %>" />
+      <input type="hidden" name="mobileNumber" value="<%= mobileNumber %>" />
+      <input type="hidden" name="declarationDate" value="<%= declarationDate %>" />
+      <input type="hidden" name="imageBase64" value="<%= imagePath %>" />
+      <input type="hidden" name="signature" value="<%= signaturePath %>" />
+      <button type="submit">Download PDF</button>
+    </form>
+  </div>
+</body>
+</html>
