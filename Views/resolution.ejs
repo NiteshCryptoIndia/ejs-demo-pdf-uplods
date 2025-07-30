@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Board Resolution</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      text-decoration: underline;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #aaa;
+      padding: 10px;
+      text-align: center;
+    }
+    .signature-section {
+      margin-top: 30px;
+    }
+    canvas {
+      border: 1px solid #000;
+    }
+    button {
+      margin-top: 5px;
+      padding: 6px 12px;
+    }
+    .signature-tools {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Board Resolution</h2>
+
+  <p>Date: <%= resolutionDate %></p>
+  <p>Time: <%= resolutionTime %></p>
+  <p>Company: <strong><%= companyName %></strong></p>
+  <p>Meeting Location: <%= meetingAddress %></p>
+
+  <p>
+    The meeting was called to discuss and pass the board resolution with the participation of the following directors.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>PAN Number</th>
+        <th>Email</th>
+        <th>Signature</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% directorDetails.forEach((director, index) => { 
+        const isCurrent = director._id === paramId;
+      %>
+      <tr>
+        <td><%= director.name %></td>
+        <td><%= director.panNumber %></td>
+        <td><%= director.email_id %></td>
+        <td>
+          <% if (isCurrent) { %>
+            <!-- Draw Signature -->
+            <canvas id="canvas-<%= index %>" width="200" height="80"></canvas><br>
+            <div class="signature-tools">
+              <button onclick="clearCanvas(<%= index %>)">Clear</button>
+              <input type="file" accept="image/*" onchange="uploadImage(event, <%= index %>)"><br>
+              <button onclick="openCamera(<%= index %>)">Capture</button>
+              <video id="video-<%= index %>" width="200" height="80" autoplay style="display:none;"></video>
+              <button onclick="captureImage(<%= index %>)">Snap</button>
+            </div>
+            <input type="hidden" id="signature-<%= index %>">
+            <button onclick="submitSignature('<%= index %>','<%= director._id %>', '<%= director.name %>', '<%= director.email_id %>')">Submit</button>
+          <% } else { %>
+            <p style="color: gray;">Only accessible to this director</p>
+          <% } %>
+        </td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <script>
+    function clearCanvas(index) {
+      const canvas = document.getElementById(`canvas-${index}`);
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      document.getElementById(`signature-${index}`).value = "";
+    }
+
+    function uploadImage(event, index) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        document.getElementById(`signature-${index}`).value = reader.result;
+        drawImageToCanvas(index, reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function openCamera(index) {
+      const video = document.getElementById(`video-${index}`);
+      video.style.display = "block";
+
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          video.srcObject = stream;
+        })
+        .catch(err => alert("Camera not available"));
+    }
+
+    function captureImage(index) {
+      const video = document.getElementById(`video-${index}`);
+      const canvas = document.getElementById(`canvas-${index}`);
+      const ctx = canvas.getContext("2d");
+
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const imageData = canvas.toDataURL("image/png");
+      document.getElementById(`signature-${index}`).value = imageData;
+
+      // Stop camera
+      video.srcObject.getTracks().forEach(track => track.stop());
+      video.style.display = "none";
+    }
+
+    function drawImageToCanvas(index, dataUrl) {
+      const canvas = document.getElementById(`canvas-${index}`);
+      const ctx = canvas.getContext("2d");
+      const img = new Image();
+      img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      img.src = dataUrl;
+    }
+
+   function submitSignature(index, directorID, name, email) {
+    console.log(index, directorID, name, email)
+  const signatureData = document.getElementById(`signature-${index}`)?.value;
+console.log(signatureData)
+  if (!signatureData) {
+    alert("Please provide a signature first.");
+    return;
+  }
+
+  const docname = "BoardResolution";
+
+  fetch("/submit-signature", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ directorID, image: signatureData, name, email, docname })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("Signature submitted successfully.");
+    } else {
+      alert("Submission failed.");
+    }
+  })
+  .catch(() => alert("Error submitting signature."));
+}
+
+  </script>
+</body>
+</html>

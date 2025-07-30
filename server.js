@@ -58,8 +58,8 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 app.use(bodyParser.json({ limit: '10mb' }));
 
-app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'public/uploads'),
@@ -177,6 +177,98 @@ async function generatePDF(htmlContent) {
   await browser.close();
   return buffer;
 }
+
+
+
+// 3 direcotor 
+app.get("/resolution/:id", (req, res) => {
+    const resolutionId = req.params.id;
+  const directorDetails = [
+    {   _id:"45863rejtte54796",
+      name: "Divyam",
+      panNumber: "LMCPK9843E",
+      email_id: "divyam@cryptoindia.in"
+    },
+    {
+        _id:"45863rejtte54797",
+      name: "Nitesh",
+      panNumber: "AAAPN1234Q",
+      email_id: "nitesh@cryptoindia.in"
+    },
+    {
+        _id:"45863rejtte54798",
+      name: "Nitesh",
+      panNumber: "AAAPN1234Q",
+      email_id: "nitesh@cryptoindia.in"
+    },
+    {
+        _id:"45863rejtte54799",
+      name: "Nitesh",
+      panNumber: "AAAPN1234Q",
+      email_id: "nitesh@cryptoindia.in"
+    }
+  ];
+
+  res.render("resolution", {
+    companyName: "Crypto India Pvt Ltd",
+    resolutionDate: "29/7/2025",
+    resolutionTime: "10:00 AM",
+    meetingAddress: "Office Address Here",
+    paramId: resolutionId,
+    directorDetails: directorDetails
+  });
+});
+
+
+
+// 📥 POST: Save Signature
+app.post("/submit-signature", upload.none(), (req, res) => {
+  const { directorID, image, name, email, docname } = req.body;
+  console.log(req.body)
+
+  // Validate
+  if (!image || !directorID) {
+    return res.status(400).json({ success: false, message: "Missing data." });
+  }
+
+    // Strip data:image/...;base64, part
+  const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
+  const buffer = Buffer.from(base64Data, 'base64');
+
+  const fileName = `${Date.now()}_${directorID}.png`;
+  const filePath = path.join(__dirname, "public", "uploads", fileName);
+
+  fs.writeFile(filePath, buffer, (err) => {
+    if (err) {
+      console.error("Failed to save image:", err);
+      return res.status(500).json({ success: false, message: "Error saving image." });
+    }
+
+    return res.json({
+      success: true,
+      message: "Signature saved successfully.",
+      fileName,
+      filePath: `/uploads/${fileName}`,
+      directorID,
+      name,
+      email,
+      docname,
+    });
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
