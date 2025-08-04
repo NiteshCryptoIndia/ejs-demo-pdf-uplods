@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Declaration of Source of Funds</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 40px;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .letterhead {
+      font-weight: bold;
+      font-size: 18px;
+      text-transform: uppercase;
+    }
+
+    .declaration-title {
+      text-align: center;
+      font-weight: bold;
+      text-decoration: underline;
+      font-size: 18px;
+      margin-top: 30px;
+      margin-bottom: 20px;
+    }
+
+    .section {
+      margin-bottom: 15px;
+    }
+
+    ol {
+      padding-left: 20px;
+    }
+
+    .signature-section {
+      margin-top: 40px;
+    }
+
+    .signature-line {
+      margin-top: 60px;
+      border-top: 1px solid #000;
+      width: 250px;
+    }
+
+    .meta-info {
+      margin-top: 10px;
+    }
+
+    canvas {
+      border: 1px solid #000;
+      margin-top: 10px;
+    }
+
+    video, img {
+      width: 250px;
+      height: auto;
+      margin-top: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 8px 16px;
+    }
+  </style>
+</head>
+<body>
+  <form id="declarationForm" method="POST" action="/v1/user/entity/declarationSubmit" enctype="multipart/form-data">
+    <header>
+      <div class="letterhead">Company Letterhead</div>
+    </header>
+
+    <div class="declaration-title">DECLARATION OF SOURCE OF FUNDS</div>
+
+    <div class="section">Date: <%= date %></div>
+
+    <div class="section">
+      I, <strong><%= directorName %></strong>, in my capacity as the Director of
+      <strong><%= companyName %></strong>, hereby declare and affirm that all funds
+      will be transferred by our company to <strong>CRYPTO INDIA (INCRYP BLOCKCHAIN PRIVATE LIMITED)</strong> in INR (Indian Currency)
+      and any other crypto currency, are obtained from legitimate and legal sources.
+    </div>
+
+    <div class="section">
+      We further declare that:
+      <ol>
+        <li><strong>Legitimate Source:</strong> All funds used in our company's financial operations are free from any illegal activity.</li>
+        <li><strong>Compliance with AML Regulations:</strong> We follow AML, CTF, and KYC guidelines strictly.</li>
+        <li><strong>Due Diligence:</strong> We verify all counterparties and their fund legitimacy.</li>
+        <li><strong>Ethical Standards:</strong> We ensure all financial activities are lawful.</li>
+        <li><strong>Cooperation with Authorities:</strong> We commit to full cooperation in case of investigations.</li>
+      </ol>
+    </div>
+
+    <!-- Signature Upload -->
+    <div class="section">
+      <h3>Upload Signature</h3>
+      <input type="file" accept="image/*" name="signatureUpload" id="signatureUpload">
+    </div>
+
+    <!-- Signature Capture -->
+    <div class="section">
+      <h3>Capture Signature</h3>
+      <canvas id="signaturePad" width="300" height="150"></canvas><br>
+      <button type="button" onclick="clearSignature()">Clear</button>
+      <input type="hidden" name="capturedSignature" id="capturedSignature">
+    </div>
+
+    <!-- Live Face Capture -->
+    <div class="section">
+      <h3>Live Face Capture</h3>
+      <video id="camera" autoplay></video><br>
+      <button type="button" onclick="captureFace()">Capture</button><br>
+      <img id="faceImagePreview" class="hidden"><br>
+      <input type="hidden" name="faceImage" id="faceImage">
+    </div>
+
+    <!-- Timestamp -->
+    <div class="section">
+      <h3>Timestamp</h3>
+      <input type="text" name="timestamp" id="timestamp" readonly>
+    </div>
+
+    <!-- Meta Info -->
+    <div class="signature-section">
+      <div>(Authorised Signatory - Signature & Stamp)</div>
+      <div class="signature-line"></div>
+      <div class="meta-info">
+        Name: <%= directorName %><br>
+        Mobile Number: <%= mobileNumber %><br>
+        Date: <%= date %>
+      </div>
+    </div>
+
+    <div class="section">
+      <button type="submit">Submit Declaration</button>
+    </div>
+  </form>
+
+  <script>
+    // Timestamp
+    document.getElementById('timestamp').value = new Date().toLocaleString();
+
+    // Signature pad to base64
+    const canvas = document.getElementById('signaturePad');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+
+    canvas.addEventListener('mousedown', () => drawing = true);
+    canvas.addEventListener('mouseup', () => {
+      drawing = false;
+      document.getElementById('capturedSignature').value = canvas.toDataURL();
+    });
+    canvas.addEventListener('mouseout', () => drawing = false);
+    canvas.addEventListener('mousemove', draw);
+
+    function draw(e) {
+      if (!drawing) return;
+      const rect = canvas.getBoundingClientRect();
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#000';
+      ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+    }
+
+    function clearSignature() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      document.getElementById('capturedSignature').value = "";
+    }
+
+    // Face capture
+    const video = document.getElementById('camera');
+    const faceInput = document.getElementById('faceImage');
+    const facePreview = document.getElementById('faceImagePreview');
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => video.srcObject = stream)
+      .catch(err => console.error("Camera access denied", err));
+
+    function captureFace() {
+      const faceCanvas = document.createElement('canvas');
+      faceCanvas.width = video.videoWidth;
+      faceCanvas.height = video.videoHeight;
+      faceCanvas.getContext('2d').drawImage(video, 0, 0);
+      const dataUrl = faceCanvas.toDataURL();
+      faceInput.value = dataUrl;
+      facePreview.src = dataUrl;
+      facePreview.classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>

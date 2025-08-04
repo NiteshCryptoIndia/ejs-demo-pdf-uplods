@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const puppeteer = require('puppeteer');
+const { PDFDocument } = require('pdf-lib');
 const axios = require('axios');
 const app = express();
 const PORT = 3000;
@@ -57,6 +58,7 @@ app.post('/download-pdf', async (req, res) => {
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 app.use(bodyParser.json({ limit: '10mb' }));
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -286,7 +288,7 @@ app.get("/locpdf", async (req, res) => {
   ];
 
   res.render("locpdf", {
-    
+    pdfPass:"123456LM",
     resolutionDate: new Date().toLocaleDateString(),
     resolutionTime: new Date().toLocaleTimeString(),
     loaData,
@@ -300,7 +302,90 @@ app.get("/locpdf", async (req, res) => {
 
 
 
+// ⬅️ Show Sanctions Questionnaire Form
+app.get("/sanctions/:token", (req, res) => {
+  const token = req.params.token;
 
+  // Dummy or fetched data from DB
+  const loaData = {}; // optional
+  const companyName = "Crypto India Pvt. Ltd.";
+  const cinNumber = "U12345RJ2024PTC012345";
+  const registeredAddress = "5th Floor, Tech Park, Bangalore";
+  const operationsAddress = "Same as Registered Address";
+  const directorName = "John Doe";
+  const mobileNumber = "9876543210";
+  const declarationDate = new Date().toLocaleDateString();
+
+  res.render("sanctions", {
+    token,
+    companyName,
+    cinNumber,
+    registeredAddress,
+    operationsAddress,
+    directorName,
+    mobileNumber,
+    declarationDate,
+  });
+});
+
+
+
+// ⬅️ Handle Form Submission
+app.post("/v1/user/entity/submitSanctionSignature/:token", async (req, res) => {
+  try {
+    const {
+     name,
+    mobileNumber,
+    date,
+    latitude,
+    longitude,
+    greyList = [],
+    blackList = [],
+    signatureImage,
+    userPhoto
+    } = req.body;
+
+    const token = req.params.token;
+
+   const saveBase64Image = (base64Str, filename) => {
+  const base64Data = base64Str.replace(/^data:image\/\w+;base64,/, "");
+  const buffer = Buffer.from(base64Data, "base64");
+
+  const uploadsDir = path.join(__dirname, "../public/uploads");
+
+  // ✅ Ensure the uploads directory exists
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  }
+
+  const filePath = path.join(uploadsDir, filename);
+  fs.writeFileSync(filePath, buffer);
+
+  return `/uploads/${filename}`; // Return relative path
+};
+
+const sigPath = saveBase64Image(signatureImage, `signature_${Date.now()}.png`);
+const photoPath = saveBase64Image(userPhoto, `photo_${Date.now()}.png`);
+    // You can now store all this in your DB if needed
+    console.log({
+      name,
+      mobileNumber,
+      date,
+      token,
+      latitude,
+      longitude,
+      greyList,
+      blackList,
+      sigPath,
+      photoPath
+    });
+
+    res.send("Sanctions form submitted successfully!");
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).send("Something went wrong while submitting the form.",err);
+  }
+});
 
 
 

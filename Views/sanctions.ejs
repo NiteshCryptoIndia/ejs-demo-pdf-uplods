@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Sanctions Questionnaire</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h2, h3 {
+      text-align: center;
+    }
+
+    .form-label {
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    input[type="text"],
+    input[type="file"],
+    input[type="date"] {
+      width: 100%;
+      padding: 6px;
+    }
+
+    video, canvas, img.preview {
+      width: 250px;
+      height: 180px;
+      border: 1px solid #000;
+      display: block;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 6px 12px;
+      margin-top: 8px;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .grid-2 {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .grid-2 > div {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Company Letterhead</h2>
+  <h3>SANCTIONS QUESTIONNAIRE</h3>
+
+  <form id="sanctionForm">
+    <input type="hidden" id="token" value="<%= token %>">
+
+    <div class="form-group"><label class="form-label">Legal Entity Name:</label><div><%= companyName %></div></div>
+    <div class="form-group"><label class="form-label">CIN / Registration Number:</label><div><%= cinNumber %></div></div>
+    <div class="form-group"><label class="form-label">Registered Address:</label><div><%= registeredAddress %></div></div>
+    <div class="form-group"><label class="form-label">Company’s Operations Address:</label><div><%= operationsAddress %></div></div>
+
+    <div class="grid-2">
+      <div>
+        <label class="form-label">Grey Listed Countries:</label>
+        <ul>
+          <% ["Albania", "Barbados", "Nigeria", "Turkey", "Yemen"].forEach(c => { %>
+            <li><input type="checkbox" name="greyList" value="<%= c %>"> <%= c %></li>
+          <% }) %>
+        </ul>
+      </div>
+      <div>
+        <label class="form-label">Blacklisted Countries:</label>
+        <ul>
+          <% ["North Korea", "Iran", "None"].forEach(c => { %>
+            <li><input type="checkbox" name="blackList" value="<%= c %>"> <%= c %></li>
+          <% }) %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="form-group"><label class="form-label">Name:</label><input type="text" id="name" value="<%= directorName %>" readonly /></div>
+    <div class="form-group"><label class="form-label">Mobile Number:</label><input type="text" id="mobileNumber" value="<%= mobileNumber %>" readonly /></div>
+    <div class="form-group"><label class="form-label">Date:</label><input type="text" id="date" value="<%= declarationDate %>" readonly /></div>
+
+    <!-- Signature -->
+    <div class="form-group">
+      <label class="form-label">Signature</label><br />
+      <input type="file" accept="image/*" onchange="handleUpload(event, 'signature')">
+      <button type="button" onclick="openCamera('signature')">Open Camera</button>
+      <button type="button" onclick="captureImage('signature')">Capture</button>
+      <video id="signatureVideo" class="hidden" autoplay></video>
+      <canvas id="signatureCanvas" class="hidden"></canvas>
+      <img id="signaturePreview" class="preview" src="assets/img/blank_img.png" />
+      <input type="hidden" id="signatureImage">
+    </div>
+
+    <!-- Photo -->
+    <div class="form-group">
+      <label class="form-label">Director Photo</label><br />
+      <input type="file" accept="image/*" onchange="handleUpload(event, 'photo')">
+      <button type="button" onclick="openCamera('photo')">Open Camera</button>
+      <button type="button" onclick="captureImage('photo')">Capture</button>
+      <video id="photoVideo" class="hidden" autoplay></video>
+      <canvas id="photoCanvas" class="hidden"></canvas>
+      <img id="photoPreview" class="preview" src="assets/img/blank_img.png" />
+      <input type="hidden" id="userPhoto">
+    </div>
+
+    <!-- Geolocation -->
+    <input type="hidden" id="latitude">
+    <input type="hidden" id="longitude">
+
+    <button type="submit">Submit Form</button>
+  </form>
+
+  <script>
+    const streamMap = {};
+
+    function openCamera(type) {
+      const video = document.getElementById(`${type}Video`);
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          streamMap[type] = stream;
+          video.srcObject = stream;
+          video.classList.remove("hidden");
+        })
+        .catch(err => alert("Camera error: " + err.message));
+    }
+
+    function captureImage(type) {
+      const video = document.getElementById(`${type}Video`);
+      const canvas = document.getElementById(`${type}Canvas`);
+      const input = document.getElementById(type === 'signature' ? 'signatureImage' : 'userPhoto');
+      const preview = document.getElementById(`${type}Preview`);
+
+      if (!video.srcObject) return alert("Open the camera first.");
+
+      canvas.width = video.videoWidth || 250;
+      canvas.height = video.videoHeight || 180;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const base64 = canvas.toDataURL("image/png");
+      input.value = base64;
+      preview.src = base64;
+
+      streamMap[type].getTracks().forEach(track => track.stop());
+      video.classList.add("hidden");
+    }
+
+    function handleUpload(event, type) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      const input = document.getElementById(type === 'signature' ? 'signatureImage' : 'userPhoto');
+      const preview = document.getElementById(`${type}Preview`);
+
+      reader.onloadend = () => {
+        input.value = reader.result;
+        preview.src = reader.result;
+      };
+      if (file) reader.readAsDataURL(file);
+    }
+
+    // Geolocation
+    navigator.geolocation.getCurrentPosition(pos => {
+      document.getElementById('latitude').value = pos.coords.latitude;
+      document.getElementById('longitude').value = pos.coords.longitude;
+    });
+
+    // Submit as JSON
+    document.getElementById("sanctionForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = {
+        name: document.getElementById("name").value,
+        mobileNumber: document.getElementById("mobileNumber").value,
+        date: document.getElementById("date").value,
+        signatureImage: document.getElementById("signatureImage").value,
+        userPhoto: document.getElementById("userPhoto").value,
+        latitude: document.getElementById("latitude").value,
+        longitude: document.getElementById("longitude").value,
+        greyList: Array.from(document.querySelectorAll("input[name='greyList']:checked")).map(i => i.value),
+        blackList: Array.from(document.querySelectorAll("input[name='blackList']:checked")).map(i => i.value),
+      };
+
+      const token = document.getElementById("token").value;
+
+      try {
+        const res = await fetch(`/v1/user/entity/submitSanctionSignature/${token}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        const result = await res.text();
+        alert(result);
+      } catch (err) {
+        alert("Submission failed: " + err.message);
+      }
+    });
+  </script>
+</body>
+
+</html>
