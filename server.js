@@ -4,11 +4,11 @@ const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const puppeteer = require('puppeteer');
-const { PDFDocument } = require('pdf-lib');
+// const { PDFDocument } = require('pdf-lib');
 const axios = require('axios');
 const app = express();
 const PORT = 3000;
-
+const { PDFDocument, rgb, StandardFonts } = require("pdf-lib");
 // Preview route: renders preview.ejs with all form data
 app.post('/preview', async (req, res) => {
   if (!req.body || typeof req.body !== 'object') {
@@ -331,62 +331,237 @@ app.get("/sanctions/:token", (req, res) => {
 
 
 // ⬅️ Handle Form Submission
+// app.post("/v1/user/entity/submitSanctionSignature/:token", async (req, res) => {
+//   try {
+//     const {
+//      name,
+//     mobileNumber,
+//     date,
+//     latitude,
+//     longitude,
+//     greyList = [],
+//     blackList = [],
+//     signatureImage,
+//     userPhoto
+//     } = req.body;
+
+//     const token = req.params.token;
+
+//    const saveBase64Image = (base64Str, filename) => {
+//   const base64Data = base64Str.replace(/^data:image\/\w+;base64,/, "");
+//   const buffer = Buffer.from(base64Data, "base64");
+
+//   const uploadsDir = path.join(__dirname, "../public/uploads");
+
+//   // ✅ Ensure the uploads directory exists
+//   if (!fs.existsSync(uploadsDir)) {
+//     fs.mkdirSync(uploadsDir, { recursive: true });
+//   }
+
+//   const filePath = path.join(uploadsDir, filename);
+//   fs.writeFileSync(filePath, buffer);
+
+//   return `/uploads/${filename}`; // Return relative path
+// };
+
+// const sigPath = saveBase64Image(signatureImage, `signature_${Date.now()}.png`);
+// const photoPath = saveBase64Image(userPhoto, `photo_${Date.now()}.png`);
+//     // You can now store all this in your DB if needed
+//     console.log({
+//       name,
+//       mobileNumber,
+//       date,
+//       token,
+//       latitude,
+//       longitude,
+//       greyList,
+//       blackList,
+//       sigPath,
+//       photoPath
+//     });
+
+//     res.send("Sanctions form submitted successfully!");
+//   } catch (err) {
+//     console.error("Error:", err);
+//     res.status(500).send("Something went wrong while submitting the form.",err);
+//   }
+// });
+
 app.post("/v1/user/entity/submitSanctionSignature/:token", async (req, res) => {
   try {
     const {
-     name,
-    mobileNumber,
-    date,
-    latitude,
-    longitude,
-    greyList = [],
-    blackList = [],
-    signatureImage,
-    userPhoto
+      name,
+      mobileNumber,
+      date,
+      latitude,
+      longitude,
+      greyList = [],
+      blackList = [],
+      signatureImage,
+      userPhoto
     } = req.body;
 
     const token = req.params.token;
 
-   const saveBase64Image = (base64Str, filename) => {
-  const base64Data = base64Str.replace(/^data:image\/\w+;base64,/, "");
-  const buffer = Buffer.from(base64Data, "base64");
+    const saveBase64Image = (base64Str, filename) => {
+      const base64Data = base64Str.replace(/^data:image\/\w+;base64,/, "");
+      const buffer = Buffer.from(base64Data, "base64");
 
-  const uploadsDir = path.join(__dirname, "../public/uploads");
+      const uploadsDir = path.join(__dirname, "public/uploads");
+      if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+      }
 
-  // ✅ Ensure the uploads directory exists
-  if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
-  }
+      const filePath = path.join(uploadsDir, filename);
+      fs.writeFileSync(filePath, buffer);
+      return `/uploads/${filename}`;
+    };
 
-  const filePath = path.join(uploadsDir, filename);
-  fs.writeFileSync(filePath, buffer);
+    const sigPath = saveBase64Image(signatureImage, `signature_${Date.now()}.png`);
+    const photoPath = saveBase64Image(userPhoto, `photo_${Date.now()}.png`);
 
-  return `/uploads/${filename}`; // Return relative path
-};
+    // ✅ Generate PDF
+    const pdfDoc = await PDFDocument.create();
+    const page = pdfDoc.addPage([600, 800]);
 
-const sigPath = saveBase64Image(signatureImage, `signature_${Date.now()}.png`);
-const photoPath = saveBase64Image(userPhoto, `photo_${Date.now()}.png`);
-    // You can now store all this in your DB if needed
-    console.log({
+    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const drawText = (text, x, y) => {
+      page.drawText(text, { x, y, size: 12, font, color: rgb(0, 0, 0) });
+    };
+
+    drawText(`Sanctions Questionnaire`, 200, 760);
+    drawText(`Name: ${name}`, 50, 720);
+    drawText(`Mobile: ${mobileNumber}`, 50, 700);
+    drawText(`Date: ${date}`, 50, 680);
+    drawText(`Latitude: ${latitude}`, 50, 660);
+    drawText(`Longitude: ${longitude}`, 50, 640);
+    drawText(`Grey List: ${greyList.join(", ")}`, 50, 620);
+    drawText(`Black List: ${blackList.join(", ")}`, 50, 600);
+
+    const sigBytes = fs.readFileSync(path.join(__dirname, "public", sigPath));
+    const photoBytes = fs.readFileSync(path.join(__dirname, "public", photoPath));
+
+    const sigImage = await pdfDoc.embedPng(sigBytes);
+    const photoImage = await pdfDoc.embedPng(photoBytes);
+
+    page.drawImage(sigImage, { x: 50, y: 500, width: 100, height: 80 });
+    page.drawText("Signature", { x: 50, y: 485, size: 10 });
+
+    page.drawImage(photoImage, { x: 200, y: 500, width: 100, height: 80 });
+    page.drawText("Photo", { x: 200, y: 485, size: 10 });
+
+    const pdfBytes = await pdfDoc.save();
+    const pdfFilename = `sanction_${Date.now()}.pdf`;
+    const pdfPath = path.join(__dirname, "public/uploads", pdfFilename);
+    fs.writeFileSync(pdfPath, pdfBytes);
+
+    // ✅ Render confirmation view with submitted data
+    res.render("confirmation", {
       name,
       mobileNumber,
       date,
-      token,
       latitude,
       longitude,
       greyList,
       blackList,
-      sigPath,
-      photoPath
+      signatureImage: sigPath,
+      userPhoto: photoPath,
+      pdfLink: `/uploads/${pdfFilename}`
     });
-
-    res.send("Sanctions form submitted successfully!");
   } catch (err) {
     console.error("Error:", err);
-    res.status(500).send("Something went wrong while submitting the form.",err);
+    res.status(500).send("Something went wrong.");
   }
 });
 
+app.get('/letter/loa-letter', (req, res) => {
+  res.render('letter', {
+    title: "Job Application Letter",
+    entityId: "564865524",
+    entityName: "Entity Name Here",
+    logoUrl: "https://dev.cryptoindia.in/logo.svg",
+    sender: {
+      name: "Ajay Kumar",
+      address: "123 Street Name<br/>City, State, ZIP",
+      email: "ajay@example.com"
+    },
+    receiver: {
+      name: "Mr. John Doe",
+      salutation: "Mr. John",
+      company: "Company Name",
+      address: "456 Business Rd.<br/>City, State, ZIP"
+    },
+    date: "21 August 2025",
+    subject: "Job Application for Web Developer Position",
+    bodyParagraphs: [
+      "I am writing to formally apply for the Web Developer position at your company...",
+      "Please find my resume attached for your review...",
+      // add more paragraphs as needed
+    ],
+    year: "2025",
+    companyName: "Company Name",
+    companyWebsite: "www.companywebsite.com",
+    companyPhone: "+91 98765 43210"
+  });
+});
+
+app.get('/loa', (req, res) => {
+  // Example data, replace with your actual data source
+  const mainTrader = [
+    {
+      name: "AJAY KUMAR JANGID",
+      panNumber: "CJPPJ1623Q",
+      phone: "8560977371",
+      email_id: "ajay@cryptoindia.in",
+     
+    }
+    // Add more directors as needed
+  ];
+  const directors = [
+    {_id: "6880a1b5986ee32d03d1a14a",
+      name: "AJAY KUMAR JANGID",
+      panNumber: "CJPPJ1623Q",
+      phone: "8560977371",
+      email_id: "ajay@cryptoindia.in",
+      signature: "", 
+      photo: "",    
+      signatureDate: "",
+      photoDate: "",
+      photoId: ""
+    },
+    {
+      _id: "6880a1b5986ee32d03d1a14b",
+      name: "Nitesh Kumar Kumawat",
+      panNumber: "NITPJ1623Q",
+      phone: "8560977371",
+      email_id: "Nitesh@cryptoindia.in",
+      signature: "",
+      photo: "",     
+      signatureDate: "",
+      photoDate: "",
+      photoId: ""
+    }
+   
+  ];
+  res.render('loaNew', {
+    // token: "123456LM",
+    // userId: "6880a1b5986ee32d03d1a14a",
+    // paramId: "6880a1b5986ee32d03d1a14a",
+    entityName: "Entity Name Here",
+    companyName: "CRYPTO INDIA (INCRYP BLOCKCHAIN PRIVATE LIMITED)",
+    date: "25/08/2025",
+    time: "10:00 AM",
+    address: "Your Address",
+    docId: "DOC123456",
+    directors,
+        mainTrader,
+        paramId: '6880a1b5986ee32d03d1a14a',
+        token: 'token',
+        userId: 'userId',
+        directorDetails: directors,
+
+  });
+});
 
 
 

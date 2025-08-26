@@ -1,0 +1,274 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <title>Board Resolution</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      text-decoration: underline;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #aaa;
+      padding: 10px;
+      text-align: center;
+      vertical-align: top;
+    }
+
+    canvas {
+      border: 1px solid #000;
+      margin-top: 5px;
+    }
+
+    button {
+      margin-top: 5px;
+      padding: 6px 12px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>Board Resolution</h2>
+  <p>Date: 21/08/2025</p>
+  <p>Time: 10:15 AM</p>
+  <p>Company: <strong></strong></p>
+  <p>Meeting Location: HDFC BANK HOUSESENAPATI BAPAT MARG   LOWER PAREL W MUMBAI Maharashtra India 400013</p>
+  <p>The meeting was called to discuss and pass the board resolution with the participation of the following directors.</p>
+  <form onsubmit="handleSubmit(event)">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>PAN Number</th>
+          <th>Email</th>
+          <th>Signature (Upload/Capture)</th>
+          <th>Photo (Capture Only)</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>NITESH KUMAR KUMAWAT</td>
+          <td>LMCPK9843E</td>
+          <td>nitesh@cryptoindia.in</td>
+
+          <!-- Signature Column -->
+          <td>
+            
+              <canvas id="signature-canvas-0" width="200" height="80"></canvas><br>
+              <input type="file" accept="image/*" onchange="uploadToCanvas(event, 0, 'signature')"><br>
+              <button type="button" onclick="openCamera(0, 'signature')">Open Camera</button>
+              <video id="signature-video-0" class="hidden" width="200" height="80" autoplay=""></video><br>
+              <button type="button" onclick="captureImage(0, 'signature')">Capture</button>
+              <input type="hidden" id="signature-data-0">
+            
+          </td>
+
+          <!-- Photo Column -->
+          <td>
+            
+              <canvas id="photo-canvas-0" width="200" height="150"></canvas><br>
+              <button type="button" onclick="openCamera(0, 'photo')">Open Camera</button>
+              <video id="photo-video-0" class="hidden" width="200" height="150" autoplay=""></video><br>
+              <button type="button" onclick="captureImage(0, 'photo')">Capture</button>
+              <input type="hidden" id="photo-data-0">
+              <input type="hidden" id="latitude-0">
+              <input type="hidden" id="longitude-0">
+            
+          </td>
+        </tr>
+        
+        <tr>
+          <td>ASHOK KUMAR CHOUDHARY</td>
+          <td>EWOPK7188D</td>
+          <td>abcd@yopmail.com</td>
+
+          <!-- Signature Column -->
+          <td>
+            
+              <p style="color: gray;">Only accessible to this director</p>
+            
+          </td>
+
+          <!-- Photo Column -->
+          <td>
+            
+              <p style="color: gray;">Only accessible to this director</p>
+            
+          </td>
+        </tr>
+        
+        <tr>
+          <td>PRADEEP KUMAR YADAV</td>
+          <td>ALSPY2419A</td>
+          <td>abcde@yopmail.com</td>
+
+          <!-- Signature Column -->
+          <td>
+            
+              <p style="color: gray;">Only accessible to this director</p>
+            
+          </td>
+
+          <!-- Photo Column -->
+          <td>
+            
+              <p style="color: gray;">Only accessible to this director</p>
+            
+          </td>
+        </tr>
+        
+        <tr>
+          <td>SACHIN FULORIA</td>
+          <td>AHDPF9508L</td>
+          <td>abcdef@yopmail.com</td>
+
+          <!-- Signature Column -->
+          <td>
+            
+              <p style="color: gray;">Only accessible to this director</p>
+            
+          </td>
+
+          <!-- Photo Column -->
+          <td>
+            
+              <p style="color: gray;">Only accessible to this director</p>
+            
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <button type="submit" style="margin-top: 20px;">Submit All</button>
+  </form>
+
+  <script>
+    function uploadToCanvas(event, index, type) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = reader.result;
+        const canvas = document.getElementById(`${type}-canvas-${index}`);
+        const ctx = canvas.getContext("2d");
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        img.src = dataUrl;
+
+        document.getElementById(`${type}-data-${index}`).value = dataUrl;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function openCamera(index, type) {
+      const video = document.getElementById(`${type}-video-${index}`);
+      video.classList.remove("hidden");
+
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          video.srcObject = stream;
+        })
+        .catch(() => alert("Camera not available."));
+    }
+
+    function captureImage(index, type) {
+      const video = document.getElementById(`${type}-video-${index}`);
+      const canvas = document.getElementById(`${type}-canvas-${index}`);
+      const ctx = canvas.getContext("2d");
+
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = canvas.toDataURL("image/png");
+      document.getElementById(`${type}-data-${index}`).value = imageData;
+
+      video.srcObject.getTracks().forEach(track => track.stop());
+      video.classList.add("hidden");
+
+      if (type === "photo") {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              document.getElementById(`latitude-${index}`).value = position.coords.latitude;
+              document.getElementById(`longitude-${index}`).value = position.coords.longitude;
+            },
+            () => {
+              alert("Location permission denied.");
+            }
+          );
+        } else {
+          alert("Geolocation not supported.");
+        }
+      }
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+
+      const directorData = [{"_id":"68a5d82303b90bc23df2494a","userId":"68a5c410210049c1ebc51ba5","serviceSessionId":"da8627bb-3a55-44a7-9c6c-959bf21e0a15","serviceName":"add-director","serviceVerified":true,"directorId":"68a5cf59cf7459b84f4ef63a","name":"NITESH KUMAR KUMAWAT","email_id":"nitesh@cryptoindia.in","phone":"9000000000","panNumber":"LMCPK9843E","maskedAdhaar":"XXXXXXXX1452","mainTrader":false,"timestamp":"2025-08-20T14:13:55.144Z","isDeleted":false,"isLatest":true,"createdAt":"2025-08-20T14:13:55.363Z","updatedAt":"2025-08-21T08:54:03.115Z","__v":0,"sharePercentage":20},{"_id":"68a5da0d03b90bc23df24a2d","userId":"68a5c410210049c1ebc51ba5","serviceSessionId":"2c52feae-5d39-4896-a186-9debafa393ca","serviceName":"add-director","serviceVerified":true,"directorId":"68a5d88303b90bc23df2497b","name":"ASHOK KUMAR CHOUDHARY","email_id":"abcd@yopmail.com","phone":"9000000001","panNumber":"EWOPK7188D","maskedAdhaar":"XXXXXXXX6152","mainTrader":true,"timestamp":"2025-08-20T14:22:04.781Z","isDeleted":false,"isLatest":true,"createdAt":"2025-08-20T14:22:05.007Z","updatedAt":"2025-08-21T08:54:03.348Z","__v":0,"sharePercentage":30},{"_id":"68a5de1a6252ab9b9f4e73bc","userId":"68a5c410210049c1ebc51ba5","serviceSessionId":"ba70d96b-877c-43b3-a86c-2f46c0a3fd29","serviceName":"add-director","serviceVerified":true,"directorId":"68a5da3803b90bc23df24a5d","name":"PRADEEP KUMAR YADAV","email_id":"abcde@yopmail.com","phone":"9000000002","panNumber":"ALSPY2419A","maskedAdhaar":"XXXXXXXX6309","mainTrader":false,"timestamp":"2025-08-20T14:39:21.846Z","isDeleted":false,"isLatest":true,"createdAt":"2025-08-20T14:39:22.071Z","updatedAt":"2025-08-21T08:54:03.581Z","__v":0,"sharePercentage":20},{"_id":"68a5e52b83b0d525e589f04d","userId":"68a5c410210049c1ebc51ba5","serviceSessionId":"c78c2798-14c3-4762-a8d0-97ed75f44829","serviceName":"add-director","serviceVerified":true,"directorId":"68a5df0178c39a4e1a28bf2b","name":"SACHIN FULORIA","email_id":"abcdef@yopmail.com","phone":"9000000003","panNumber":"AHDPF9508L","maskedAdhaar":"XXXXXXXX0532","mainTrader":false,"timestamp":"2025-08-20T15:09:31.393Z","isDeleted":false,"isLatest":true,"createdAt":"2025-08-20T15:09:31.629Z","updatedAt":"2025-08-21T08:54:03.821Z","__v":0,"sharePercentage":20}];
+      const paramId = "68a5cf59cf7459b84f4ef63a";
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGE1YzQxMDIxMDA0OWMxZWJjNTFiYTUiLCJkaXJlY3RvcklkIjoiNjhhNWNmNTljZjc0NTliODRmNGVmNjNhIiwiZW1haWwiOiJuaXRlc2hAY3J5cHRvaW5kaWEuaW4iLCJuYW1lIjoiTklURVNIIEtVTUFSIEtVTUFXQVQiLCJkb2NUeXBlIjoiTG9hIiwiaWF0IjoxNzU1NzcxMzExLCJleHAiOjE3NTU4NTc3MTF9.nnwzQ45868R-vj4jwWkqN8V9re5iVzNPFEH5qBA94RM";
+      const userId = "68a5c410210049c1ebc51ba5";
+
+      const payloads = [];
+
+      directorData.forEach((director, index) => {
+        if (director.directorId === paramId) {
+          const signature = document.getElementById(`signature-data-${index}`).value;
+          const photo = document.getElementById(`photo-data-${index}`).value;
+          const latitude = document.getElementById(`latitude-${index}`).value;
+          const longitude = document.getElementById(`longitude-${index}`).value;
+
+          if (!signature || !photo) {
+            alert("Please capture or upload both signature and photo before submitting.");
+            return;
+          }
+
+          payloads.push({
+            directorID: director._id,
+            name: director.name,
+            email: director.email_id,
+            image: signature,
+            userPhoto: photo,
+            panNumber: director.panNumber,
+            docname: "Loa",
+            userId,
+            latitude,
+            longitude
+          });
+        }
+      });
+
+      if (!payloads.length) return;
+
+      Promise.all(payloads.map(data =>
+        fetch(`/v1/user/entity/submitSignature/${token}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        })
+          .then(res => res.json())
+      )).then(results => {
+        const allSuccess = results.every(r => r.success);
+        alert(allSuccess ? "Submitted successfully." : "Some submissions failed.");
+      }).catch(() => alert("Submission error."));
+    }
+  </script>
+
+
+</body></html>

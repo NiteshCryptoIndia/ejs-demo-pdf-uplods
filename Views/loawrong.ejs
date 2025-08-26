@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content=" initial-scale=1.0">
+  <title>Letter OF Authorization</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* ...existing CSS from loaNew.html... */
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="">
+        <img src="https://dev.cryptoindia.in/logo.svg" width="180" class="img-fluid" alt="" />
+      </div>
+      <div class="stack" style="margin-left:auto;">
+        <button class="btn btn-dark btn-sm px-4">Download Signed PDF</button>
+      </div>
+    </header>
+    <div class="row">
+      <div id="viewer-col" class="col">
+        <div class="pdf_iframe">
+          <!-- render/export this for pdf  -->
+          <div class="pdf_viewer ">
+            <!-- Fixed Header -->
+            <div class="header">
+              <h2><%= entityName %></h2>
+              <div class="logo">
+                <img src="https://dev.cryptoindia.in/logo.svg" width="110" class="img-fluid" alt="" />
+              </div>
+            </div>
+            <!-- Letter Content -->
+            <div class="content">
+              <div class="letterhead">
+                <small> DOC ID : <%= docId %> </small>
+                <p><strong> BOARD RESOLUTION </strong><br>
+                  FOR APPOINTMENT OF AUTHORIZED SIGNATORY
+                </p>
+              </div>
+              <div class="date">
+                <p>Date: <%= date %></p>
+              </div>
+              <p>CERTIFIED TRUE COPY OF THE RESOLUTION PASSED IN THE MEETING OF THE BOARD OF DIRECTORS/ PARTNERS OF
+                <b><%= companyName %></b> HELD ON <b><%= date %></b> AT <b><%= time %></b> , AT <b><%= address %></b>.
+              </p>
+              <p>Resolved that: </p>
+              <p>
+                The Board of Directors/Partners approves the opening of an account and authorizes the company to avail
+                all necessary services offered by <b>CRYPTO INDIA (INCRYP BLOCKCHAIN PRIVATE LIMITED)</b> for the smooth
+                functioning of its operations.
+              </p>
+              <p>The following person are hereby authorized to: </p>
+              <p>
+                Create, operate and maintain accounts in the name of the company with Crypto India .
+              </p>
+              <p>
+                Sign, execute and deliver all necessary documents, agreements, and forms required by Crypto India for
+                availing its services, including but not limited to account opening, crypto wallet agreements, and other relevant
+                contracts.
+              </p>
+              <p>
+                Deposit and withdraw funds, give instructions for the transfer of funds and perform any other actions required
+                for the operation of the company's/firm’s account or services with Crypto India .
+              </p>
+              <div class="table-responsive">
+                <table class="table table-bordered " style=" text-align: center; border-collapse: collapse; width: 100%;">
+                  <thead style="font-size: 12px; text-align: center;">
+                    <tr>
+                      <th style="padding: 10px;"> NAME OF AUTHORIZED PERSON </th>
+                      <th style="padding: 10px;"> PAN NUMBER </th>
+                      <th style="padding: 10px;"> PHONE NUMBER & EMAIL ID </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% directors.forEach(function(director) { %>
+                    <tr>
+                      <td style="padding: 10px;"> <%= director.name %> </td>
+                      <td style="padding: 10px;"> <%= director.panNumber %> </td>
+                      <td style="padding: 10px;"> <%= director.phone %> <br> <%= director.email_id %> </td>
+                    </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                The Authorized Person(s) are hereby empowered to act individually as may be required in the performance
+                of their duties, including signing checks, electronic fund transfers, executing contracts, and taking necessary
+                actions related to the account or services with Crypto India.
+              </p>
+              <p>A certified true copy of this resolution be forwarded to Crypto India and any statutory or regulatory
+                authorities as required. </p>
+              <p>
+                The resolution shall remain in force until notice in writing to Crypto India by the Company.
+              </p>
+              <br />
+              <p> <small>The meeting was called to discuss and pass the board resolution with the participation of the
+                  following directors.</small>
+              </p>
+              <div class="table-responsive">
+                <table class="table table-bordered " style=" text-align: center; border-collapse: collapse; width: 100%;">
+                  <thead style="font-size: 12px; text-align: center;">
+                    <tr>
+                      <th style="padding: 10px;"> NAME </th>
+                      <th style="padding: 10px;"> PAN NUMBER </th>
+                      <th style="padding: 10px;"> EMAIL ID </th>
+                      <th style="padding: 10px;"> Signature </th>
+                      <th style="padding: 10px;"> Photo </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% directors.forEach(function(director, idx) { %>
+                    <tr>
+                      <td style="padding: 10px;"> <%= director.name %> </td>
+                      <td style="padding: 10px;"> <%= director.panNumber %> </td>
+                      <td style="padding: 10px;"> <%= director.email_id %> </td>
+                      <td style="padding: 10px 0;">
+                        <div class="sn_img ">
+                          <% if (director.signature) { %>
+                            <img src="<%= director.signature %>" width="100" />
+                          <% } else { %>
+                            <span>No signature</span>
+                          <% } %>
+                          <small> <%= director.signatureDate || '' %> <br /> Sign ID: <%= director.signatureId || '' %> </small>
+                        </div>
+                      </td>
+                      <td style="padding: 10px 0;">
+                        <div class="sn_img ">
+                          <% if (director.photo) { %>
+                            <img src="<%= director.photo %>" width="80" />
+                          <% } else { %>
+                            <span>No photo</span>
+                          <% } %>
+                          <small> <%= director.photoDate || '' %> <br /> DOC ID: <%= director.photoId || '' %> </small>
+                        </div>
+                      </td>
+                    </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>
+              <br />
+            </div>
+            <!-- Fixed Footer -->
+            <div class="footer">
+              <p> DOC ID: <%= docId %> </p>
+              <p> support@cryptoindia.in | www.cryptoindia.in </p>
+            </div>
+          </div>
+          <!-- render/export this for pdf end  -->
+        </div>
+      </div>
+      <!-- The right column for upload/capture controls can be added here if needed, but not in PDF -->
+    </div>
+  </main>
+</body>
+</html>

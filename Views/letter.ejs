@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= title || "Letter" %></title>
+  <style>
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    .header, .footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      padding: 15px 0;
+    }
+    .header {
+      top: 0;
+      border-bottom: 1px solid #b4b4b4; 
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header small{
+      font-size: 13px;
+      line-height: 1.2;
+      margin: 0;
+    }
+    .header h2{
+      font-size: 18px;
+      line-height: 1;
+      margin: 0;
+    }
+    .footer {
+      bottom: 0;
+      border-top: 2px solid #333;
+      text-align: center;
+      font-size: 14px;
+    }
+    .content {
+      max-width: 700px;
+      margin: 140px auto 100px auto;
+      padding: 40px;
+    }
+    .sender, .receiver, .date {
+      margin-bottom: 20px;
+    }
+    .signature {
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Fixed Header -->
+  <div class="header">
+    <h2>
+      <small>#<%= entityId %></small><br/>
+      <%= entityName %>
+    </h2>
+    <div class="logo">
+      <img src="<%= logoUrl %>" width="110" alt="Logo" />
+    </div> 
+  </div>
+
+  <!-- Letter Content -->
+  <div class="content">
+    <div class="sender">
+      <p><strong><%= sender.name %></strong><br/>
+      <%= sender.address %><br/>
+      Email: <%= sender.email %></p>
+    </div>
+
+    <div class="date">
+      <p><%= date %></p>
+    </div>
+
+    <div class="receiver">
+      <p><strong><%= receiver.name %></strong><br/>
+      <%= receiver.company %><br/>
+      <%= receiver.address %></p>
+    </div>
+
+    <p><strong>Subject:</strong> <%= subject %></p>
+
+    <p>Dear <%= receiver.salutation %>,</p>
+
+    <% bodyParagraphs.forEach(function(paragraph) { %>
+      <p><%= paragraph %></p>
+    <% }) %>
+
+    <p>Thank you for your time and consideration.</p>
+
+    <p>Sincerely,</p>
+    <div class="signature">
+      <p><strong><%= sender.name %></strong></p>
+    </div>
+  </div>
+
+  <!-- Fixed Footer -->
+  <div class="footer">
+    <p>&copy; <%= year %> <%= companyName %> | <%= companyWebsite %> | Phone: <%= companyPhone %></p>
+  </div>
+</body>
+</html>
