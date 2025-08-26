@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Board Resolution</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      text-decoration: underline;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #aaa;
+      padding: 10px;
+      text-align: center;
+      vertical-align: top;
+    }
+
+    canvas {
+      border: 1px solid #000;
+      margin-top: 5px;
+    }
+
+    button {
+      margin-top: 5px;
+      padding: 6px 12px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>Board Resolution</h2>
+  <p>Date: <%= resolutionDate %></p>
+  <p>Time: <%= resolutionTime %></p>
+  <p>Company: <strong><%= companyName %></strong></p>
+  <p>Meeting Location: <%= meetingAddress %></p>
+  <p>The meeting was called to discuss and pass the board resolution with the participation of the following directors.</p>
+  <form onsubmit="handleSubmit(event)">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>PAN Number</th>
+          <th>Email</th>
+          <th>Signature (Upload/Capture)</th>
+          <th>Photo (Capture Only)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% directorDetails.forEach((director, index) => {
+          const isCurrent = director.directorId === paramId;
+        %>
+        <tr>
+          <td><%= director.name %></td>
+          <td><%= director.panNumber %></td>
+          <td><%= director.email_id %></td>
+
+          <!-- Signature Column -->
+          <td>
+            <% if (isCurrent) { %>
+              <canvas id="signature-canvas-<%= index %>" width="200" height="80"></canvas><br>
+              <input type="file" accept="image/*" onchange="uploadToCanvas(event, <%= index %>, 'signature')"><br>
+              <button type="button" onclick="openCamera(<%= index %>, 'signature')">Open Camera</button>
+              <video id="signature-video-<%= index %>" class="hidden" width="200" height="80" autoplay></video><br>
+              <button type="button" onclick="captureImage(<%= index %>, 'signature')">Capture</button>
+              <input type="hidden" id="signature-data-<%= index %>">
+            <% } else { %>
+              <p style="color: gray;">Only accessible to this director</p>
+            <% } %>
+          </td>
+
+          <!-- Photo Column -->
+          <td>
+            <% if (isCurrent) { %>
+              <canvas id="photo-canvas-<%= index %>" width="200" height="150"></canvas><br>
+              <button type="button" onclick="openCamera(<%= index %>, 'photo')">Open Camera</button>
+              <video id="photo-video-<%= index %>" class="hidden" width="200" height="150" autoplay></video><br>
+              <button type="button" onclick="captureImage(<%= index %>, 'photo')">Capture</button>
+              <input type="hidden" id="photo-data-<%= index %>">
+              <input type="hidden" id="latitude-<%= index %>">
+              <input type="hidden" id="longitude-<%= index %>">
+            <% } else { %>
+              <p style="color: gray;">Only accessible to this director</p>
+            <% } %>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <button type="submit" style="margin-top: 20px;">Submit All</button>
+  </form>
+
+  <script>
+    function uploadToCanvas(event, index, type) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = reader.result;
+        const canvas = document.getElementById(`${type}-canvas-${index}`);
+        const ctx = canvas.getContext("2d");
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        img.src = dataUrl;
+
+        document.getElementById(`${type}-data-${index}`).value = dataUrl;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function openCamera(index, type) {
+      const video = document.getElementById(`${type}-video-${index}`);
+      video.classList.remove("hidden");
+
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          video.srcObject = stream;
+        })
+        .catch(() => alert("Camera not available."));
+    }
+
+    function captureImage(index, type) {
+      const video = document.getElementById(`${type}-video-${index}`);
+      const canvas = document.getElementById(`${type}-canvas-${index}`);
+      const ctx = canvas.getContext("2d");
+
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = canvas.toDataURL("image/png");
+      document.getElementById(`${type}-data-${index}`).value = imageData;
+
+      video.srcObject.getTracks().forEach(track => track.stop());
+      video.classList.add("hidden");
+
+      if (type === "photo") {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              document.getElementById(`latitude-${index}`).value = position.coords.latitude;
+              document.getElementById(`longitude-${index}`).value = position.coords.longitude;
+            },
+            () => {
+              alert("Location permission denied.");
+            }
+          );
+        } else {
+          alert("Geolocation not supported.");
+        }
+      }
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+
+      const directorData = <%- JSON.stringify(directorDetails) %>;
+      const paramId = "<%= paramId %>";
+      const token = "<%= token %>";
+      const userId = "<%= userId %>";
+
+      const payloads = [];
+
+      directorData.forEach((director, index) => {
+        if (director.directorId === paramId) {
+          const signature = document.getElementById(`signature-data-${index}`).value;
+          const photo = document.getElementById(`photo-data-${index}`).value;
+          const latitude = document.getElementById(`latitude-${index}`).value;
+          const longitude = document.getElementById(`longitude-${index}`).value;
+
+          if (!signature || !photo) {
+            alert("Please capture or upload both signature and photo before submitting.");
+            return;
+          }
+
+          payloads.push({
+            directorID: director._id,
+            name: director.name,
+            email: director.email_id,
+            image: signature,
+            userPhoto: photo,
+            panNumber: director.panNumber,
+            docname: "Loa",
+            userId,
+            latitude,
+            longitude
+          });
+        }
+      });
+
+      if (!payloads.length) return;
+
+      Promise.all(payloads.map(data =>
+        fetch(`/v1/user/entity/submitSignature/${token}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        })
+          .then(res => res.json())
+      )).then(results => {
+        const allSuccess = results.every(r => r.success);
+        alert(allSuccess ? "Submitted successfully." : "Some submissions failed.");
+      }).catch(() => alert("Submission error."));
+    }
+  </script>
+</body>
+</html>

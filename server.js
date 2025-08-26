@@ -184,27 +184,28 @@ async function generatePDF(htmlContent) {
 
 // 3 direcotor 
 app.get("/resolution/:id", (req, res) => {
-    const resolutionId = req.params.id;
+  const resolutionId = req.params.id;
   const directorDetails = [
-    {   _id:"45863rejtte54796",
+    {
+      _id: "45863rejtte54796",
       name: "Divyam",
       panNumber: "LMCPK9843E",
       email_id: "divyam@cryptoindia.in"
     },
     {
-        _id:"45863rejtte54797",
+      _id: "45863rejtte54797",
       name: "Nitesh",
       panNumber: "AAAPN1234Q",
       email_id: "nitesh@cryptoindia.in"
     },
     {
-        _id:"45863rejtte54798",
+      _id: "45863rejtte54798",
       name: "Nitesh",
       panNumber: "AAAPN1234Q",
       email_id: "nitesh@cryptoindia.in"
     },
     {
-        _id:"45863rejtte54799",
+      _id: "45863rejtte54799",
       name: "Nitesh",
       panNumber: "AAAPN1234Q",
       email_id: "nitesh@cryptoindia.in"
@@ -233,7 +234,7 @@ app.post("/submit-signature", upload.none(), (req, res) => {
     return res.status(400).json({ success: false, message: "Missing data." });
   }
 
-    // Strip data:image/...;base64, part
+  // Strip data:image/...;base64, part
   const base64Data = image.replace(/^data:image\/\w+;base64,/, "");
   const buffer = Buffer.from(base64Data, 'base64');
 
@@ -264,7 +265,7 @@ app.post("/submit-signature", upload.none(), (req, res) => {
 app.get("/locpdf", async (req, res) => {
   const loaData = [
     {
-       _id: "6880a1b5986ee32d03d1a13d",
+      _id: "6880a1b5986ee32d03d1a13d",
       name: "Nitesh Kumar",
       panNumber: "ABCDE1234F",
       fileKey: "director-signature-1753947316029-BoardResolution_6880a1b5986ee32d03d1a13d.png",
@@ -275,7 +276,7 @@ app.get("/locpdf", async (req, res) => {
       docname: "BoardResolution"
     },
     {
-       _id: "6880a1b5986ee32d03d1a14a",
+      _id: "6880a1b5986ee32d03d1a14a",
       name: "Ravi Mehta",
       panNumber: "XYZAB9876P",
       fileKey: "director-signature-1753947316030-BoardResolution_6880a1b5986ee32d03d1a14a.png",
@@ -288,7 +289,7 @@ app.get("/locpdf", async (req, res) => {
   ];
 
   res.render("locpdf", {
-    pdfPass:"123456LM",
+    pdfPass: "123456LM",
     resolutionDate: new Date().toLocaleDateString(),
     resolutionTime: new Date().toLocaleTimeString(),
     loaData,
@@ -513,35 +514,39 @@ app.get('/loa', (req, res) => {
       panNumber: "CJPPJ1623Q",
       phone: "8560977371",
       email_id: "ajay@cryptoindia.in",
-     
+
     }
     // Add more directors as needed
   ];
   const directors = [
-    {_id: "6880a1b5986ee32d03d1a14a",
+
+    {
+      directorId: "6880a1b5986ee32d03d1a14a",
+      _id: "6880a1b5986ee32d03d1a14a",
       name: "AJAY KUMAR JANGID",
       panNumber: "CJPPJ1623Q",
       phone: "8560977371",
       email_id: "ajay@cryptoindia.in",
-      signature: "", 
-      photo: "",    
+      signature: "",
+      photo: "",
       signatureDate: "",
       photoDate: "",
       photoId: ""
     },
     {
+      directorId: "6880a1b5986ee32d03d1a14b",
       _id: "6880a1b5986ee32d03d1a14b",
       name: "Nitesh Kumar Kumawat",
       panNumber: "NITPJ1623Q",
       phone: "8560977371",
       email_id: "Nitesh@cryptoindia.in",
       signature: "",
-      photo: "",     
+      photo: "",
       signatureDate: "",
       photoDate: "",
       photoId: ""
     }
-   
+
   ];
   res.render('loaNew', {
     // token: "123456LM",
@@ -554,11 +559,11 @@ app.get('/loa', (req, res) => {
     address: "Your Address",
     docId: "DOC123456",
     directors,
-        mainTrader,
-        paramId: '6880a1b5986ee32d03d1a14a',
-        token: 'token',
-        userId: 'userId',
-        directorDetails: directors,
+    mainTrader,
+    paramId: '6880a1b5986ee32d03d1a14a',
+    token: 'token',
+    userId: 'userId',
+    directorDetails: directors,
 
   });
 });
