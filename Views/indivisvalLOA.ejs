@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Letter OF Authorization</title>
+  <style>
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      font-size: 13px;
+    }
+
+    .header,
+    .footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      padding: 20px 0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      top: 0;
+      border-bottom: 1px solid #b4b4b4;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header small {
+      font-size: 12px;
+      line-height: 1.2;
+      margin: 0 0 5px;
+      display: block;
+    }
+
+    .header h2 {
+      font-size: 22px;
+      line-height: 1;
+      margin: 0;
+    }
+
+    .footer {
+      bottom: 0;
+      border-top: 1px solid #b4b4b4;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .footer p {
+      margin: 0;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 100px auto 50px auto;
+      padding: 10px 0;
+    }
+
+    .letterhead {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .letterhead p {
+      font-size: 11px;
+    }
+
+    .letterhead p strong {
+      font-size: 20px;
+    }
+
+    .signature {
+      margin-top: 50px;
+    }
+
+    .d-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sn_img {
+      text-align: center;
+    }
+
+    .sn_img img {
+      margin: 0 auto 4px;
+      display: block;
+    }
+
+    .sn_img small {
+      font-size: 10px;
+    }
+
+    @media print {
+      .content {
+        max-width: 800px;
+        margin: 10px auto;
+        padding: 10px 0;
+      }
+      .page-break {
+        page-break-before: always;
+        margin-bottom: 0px;
+      }
+      .header,
+      .footer {
+        position: relative;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Fixed Header -->
+  <div class="header">
+    <h2><%= entityName %></h2>
+    <div class="logo">
+      <img src="https://dev.cryptoindia.in/logo.svg" width="110" class="img-fluid" alt="Logo" />
+    </div>
+  </div>
+
+  <!-- Letter Content -->
+  <div class="content">
+    <div class="letterhead">
+      <p><strong> BOARD RESOLUTION </strong><br>
+        FOR APPOINTMENT OF AUTHORIZED SIGNATORY
+      </p>
+    </div>
+
+    <div class="date">
+      <p>Date: <%= resolutionDate %></p>
+    </div>
+
+    <p>CERTIFIED TRUE COPY OF THE RESOLUTION PASSED IN THE MEETING OF THE BOARD OF DIRECTORS/ PARTNERS OF 
+      <b><%= companyName %></b> HELD ON <b><%= resolutionDate %></b> AT <b><%= resolutionTime %></b>, 
+      AT <b><%= companyAddress %></b>.
+    </p>
+
+    <p>Resolved that:</p>
+
+    <p>
+      The Board of Directors/Partners approves the opening of an account and authorizes the company to avail all
+      necessary services offered by <b>CRYPTO INDIA (INCRYP BLOCKCHAIN PRIVATE LIMITED)</b>.
+    </p>
+
+    <p>The following person are hereby authorized to:</p>
+
+    <table border="1" style="text-align:center; border-collapse:collapse; width:100%;">
+      <thead style="font-size:12px; text-align:center;">
+        <tr>
+          <th style="padding:10px;">NAME OF AUTHORIZED PERSON</th>
+          <th style="padding:10px;">PAN NUMBER</th>
+          <th style="padding:10px;">PHONE NUMBER & EMAIL ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% authorizedPersons.forEach(person => { %>
+          <tr>
+            <td style="padding:10px;"><%= person.name %></td>
+            <td style="padding:10px;"><%= person.pan %></td>
+            <td style="padding:10px;">
+              <%= person.phone %><br><%= person.email %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <p><small>The meeting was called to discuss and pass the board resolution with the participation of the following
+        directors.</small></p>
+
+    <table border="1" style="text-align:center; border-collapse:collapse; width:100%;">
+      <thead style="font-size:12px; text-align:center;">
+        <tr>
+          <th style="padding:10px;">NAME</th>
+          <th style="padding:10px;">PAN NUMBER</th>
+          <th style="padding:10px;">EMAIL ID</th>
+          <th style="padding:10px;">Signature</th>
+          <th style="padding:10px;">Photo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% directors.forEach(director => { %>
+          <tr>
+            <td style="padding:10px;"><%= director.name %></td>
+            <td style="padding:10px;"><%= director.panNumber %></td>
+            <td style="padding:10px;"><%= director.email %></td>
+            <td style="padding:10px;">
+              <div class="sn_img">
+                <% if (director.signature) { %>
+                  <img src="<%= director.signature %>" width="100" />
+                  <small><%= director.signedAt %></small>
+                <% } else { %>
+                  <span style="color:gray;">No Signature</span>
+                <% } %>
+              </div>
+            </td>
+            <td style="padding:10px;">
+              <div class="sn_img">
+                <% if (director.photo) { %>
+                  <img src="<%= director.photo %>" width="80" />
+                  <small><%= director.photoAt %></small>
+                <% } else { %>
+                  <span style="color:gray;">No Photo</span>
+                <% } %>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Fixed Footer -->
+  <div class="footer">
+    <p>&copy; 2025 Crypto India | www.cryptoindia.in | support@cryptoindia.in </p>
+  </div>
+</body>
+</html>

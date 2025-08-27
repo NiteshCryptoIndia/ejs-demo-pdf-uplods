@@ -468,552 +468,340 @@
 <body>
 
 
-  <main>
-    <header>
-      <div class="">
-        <img src="https://dev.cryptoindia.in/logo.svg" width="180" class="img-fluid" alt="" />
-      </div>
-      <div class="stack" style="margin-left:auto;">
-        <button class="btn btn-dark btn-sm px-4">Download Signed PDF</button>
-      </div>
-    </header>
+<main>
+  <header>
+    <div>
+      <img src="https://dev.cryptoindia.in/logo.svg" width="180" class="img-fluid" alt="Logo" />
+    </div>
+    <div class="stack" style="margin-left:auto;">
+      <button class="btn btn-dark btn-sm px-4">Download Signed PDF</button>
+    </div>
+  </header>
 
-    <div class="row">
-      <div id="viewer-col" class="col">
-        <div class="pdf_iframe">
+  <div class="row">
+    <div id="viewer-col" class="col">
+      <div class="pdf_iframe">
 
-          <!-- render/export this for pdf  -->
-          <div class="pdf_viewer ">
-            <style>
-              .pdf_viewer {
-                font-family: "Plus Jakarta Sans", sans-serif;
-                margin: 0;
-                padding: 0;
-                line-height: 1.6;
-                background: #fff;
-                font-size: 13px;
-              }
+        <!-- PDF Render Area -->
+        <div class="pdf_viewer">
+          <style>
+            .pdf_viewer {
+              font-family: "Plus Jakarta Sans", sans-serif;
+              margin: 0;
+              padding: 0;
+              line-height: 1.6;
+              background: #fff;
+              font-size: 13px;
+            }
 
-              .header,
-              .footer {
-                position: relative;
-                left: 0;
-                right: 0;
-                padding: 20px 0;
-                max-width: 800px;
-                margin: 0 auto;
-                /* z-index: 1; */
-              }
+            .header,
+            .footer {
+              position: relative;
+              left: 0;
+              right: 0;
+              padding: 20px 0;
+              max-width: 800px;
+              margin: 0 auto;
+            }
 
-              .header {
-                top: 0;
-                border-bottom: 1px solid #b4b4b4;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-              }
+            .header {
+              border-bottom: 1px solid #b4b4b4;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            }
 
-              .header small {
-                font-size: 12px;
-                line-height: 1.2;
-                margin: 0 0 5px;
-                display: block;
+            .header small {
+              font-size: 12px;
+              margin: 0 0 5px;
+              display: block;
+            }
 
-              }
+            .header h2 {
+              font-size: 22px;
+              margin: 0;
+            }
 
-              .header h2 {
-                font-size: 22px;
-                line-height: 1;
-                margin: 0;
-              }
+            .footer {
+              border-top: 1px solid #b4b4b4;
+              text-align: center;
+              font-size: 12px;
+            }
 
-              .footer {
-                bottom: 0;
-                border-top: 1px solid #b4b4b4;
-                text-align: center;
-                font-size: 12px;
-              }
+            .footer p {
+              margin: 0;
+            }
 
-              .footer p {
-                margin: 0;
-              }
+            .content {
+              max-width: 800px;
+              margin: 50px auto;
+              padding: 10px 0;
+            }
 
+            .letterhead {
+              text-align: center;
+              margin-bottom: 20px;
+            }
+
+            .letterhead small {
+              position: absolute;
+              top: -7px;
+              left: 0;
+            }
+
+            .letterhead p {
+              font-size: 11px;
+            }
+
+            .letterhead p strong {
+              font-size: 20px;
+            }
+
+            .sn_img {
+              text-align: center;
+            }
+
+            .sn_img img {
+              margin: 0 auto 4px;
+              display: block;
+            }
+
+            .sn_img small {
+              font-size: 10px;
+            }
+
+            @media print {
               .content {
                 max-width: 800px;
-                margin: 100px auto 100px auto;
-                padding: 10px 0;
-                position: relative;
+                margin: 10px auto;
               }
-
-              .letterhead small {
-                position: absolute;
-                top: -7px;
-                left: 0;
+              .page-break {
+                page-break-before: always;
+                margin-bottom: 0;
               }
+            }
+          </style>
 
-              .letterhead {
-                text-align: center;
-                margin-bottom: 20px;
-              }
-
-              .letterhead p {
-                font-size: 11px;
-              }
-
-              .letterhead p strong {
-                font-size: 20px;
-
-              }
-
-              .sender,
-              .receiver,
-              .date,
-              .time {
-                margin-bottom: 20px;
-              }
-
-
-              .signature {
-                margin-top: 50px;
-              }
-
-              .d-flex {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-              }
-
-              .sn_img {
-                text-align: center;
-              }
-
-              .sn_img img {
-                margin: 0 auto 4px;
-                display: block;
-              }
-
-              .sn_img small {
-                font-size: 10px;
-              }
-
-
-              /* Print settings */
-              @media print {
-
-                /* @page  {
-        padding-top: 120px;  
-      }   */
-
-                .content {
-                  max-width: 800px;
-                  margin: 10px auto 10px auto;
-                  /* space for header & footer */
-                  padding: 10px 0;
-                }
-
-                /* Force page breaks for demo */
-                .page-break {
-                  page-break-before: always;
-                  margin-bottom: 0px;
-                }
-
-                .header,
-                .footer {
-                  position: relative;
-                }
-              }
-            </style>
-
-            <!-- Fixed Header -->
-            <div class="header">
-              <h2>
-                <%= companyName %>
-              </h2>
-              <div class="logo">
-                <img src="https://dev.cryptoindia.in/logo.svg" width="110" class="img-fluid" alt="" />
-              </div>
+          <!-- Header -->
+          <div class="header">
+            <h2><%= companyName %></h2>
+            <div class="logo">
+              <img src="https://dev.cryptoindia.in/logo.svg" width="110" class="img-fluid" alt="Logo" />
             </div>
+          </div>
 
-            <!-- Letter Content -->
-            <div class="content">
-
-              <div class="letterhead">
-                <small> DOC ID : <%= docId %> </small>
-                <p><strong> BOARD RESOLUTION </strong><br>
-                  FOR APPOINTMENT OF AUTHORIZED SIGNATORY
+          <!-- Letter Content -->
+          <div class="content">
+            <div class="letterhead">
+                <p>
+                    <strong>BOARD RESOLUTION</strong><br>
+                    FOR APPOINTMENT OF AUTHORIZED SIGNATORY
                 </p>
+            </div>
+            
+            <div class="date">
+                 <small> DOC ID : <%= docId %> </small>
+                <p>Date: <%- date %> </p>
               </div>
 
-              <div class="date">
-                <p>Date: <%= date %>
-                </p>
-              </div>
-
-              <p>CERTIFIED TRUE COPY OF THE RESOLUTION PASSED IN THE MEETING OF THE BOARD OF DIRECTORS/ PARTNERS OF
-                <b>
-                  <%= entityName %>
-                </b> HELD ON <b>
-                  <%= date %>
-                </b> AT <b>
-                  <%= time %>
-                </b> , AT <b>
-                  <%= address %>
-                </b>.
-              </p>
-
-              <p>Resolved that: </p>
-
-              <p>
-                The Board of Directors/Partners approves the opening of an account and authorizes the company to avail
+              <p>I, <b><%= mainTrader[0].name %></b>, in my capacity as the Director of <b><%- entityName %></b>, hereby declare
+                and affirm
+                that all funds
+                will be transferred by our company to CRYPTO INDIA (INCRYP BLOCKCHAIN PRIVATE LIMITED) in INR (Indian
+                Currency)
+                and any other crypto currency, are obtained from legitimate and legal sources. The funds are fully
+                compliant with
                 all
-                necessary services offered by <b>CRYPTO INDIA (INCRYP BLOCKCHAIN PRIVATE LIMITED)</b> for the smooth
-                functioning
-                of its operations.
+                applicable laws, regulations, and guidelines, including Anti-Money Laundering (AML) and
+                Counter-Terrorist
+                Financing
+                (CTF) regulation</b>.
               </p>
 
-              <p>The following person are hereby authorized to: </p>
+              <p>We further declare that: </p>
 
-              <p>
-                Create, operate and maintain accounts in the name of the company with Crypto India .
-              </p>
+              <p> <b>1. Legitimate Source:</b> All funds used in our company's financial operations, including the
+                acquisition of
+                crypto
+                assets,
+                are free from any association with illegal activities such as money laundering, tax evasion, or
+                terrorist
+                financing. </p>
+              <p> <b> 2. Compliance with AML Regulations:</b> Our company follows stringent internal controls and
+                compliance
+                measures,
+                ensuring full adherence to AML, CTF, and Know Your Customer (KYC) guidelines as stipulated by regulatory
+                authorities. </p>
+              We have systems in place to detect and prevent suspicious or unlawful financial activities.
+              <p> <b> 3. Due Diligence: </b> Our company undertakes regular due diligence on all counterparties and
+                customers to
+                verify the
+                legitimacy of funds, consistent with legal requirements, before entering any transaction involving
+                crypto assets
+                or
+                traditional financial services. </p>
+              <p> <b>4. Ethical Standards:</b> Our company upholds the highest standards of ethical conduct in all
+                financial
+                dealings,
+                ensuring
+                that funds used in all transactions are derived from legitimate business activities and are compliant
+                with
+                domestic and international regulations. </p>
+              <p> <b>5. Cooperation with Authorities:</b> In the event of any suspicion, inquiry, or investigation into
+                the source
+                of our
+                company's funds, we commit to full cooperation with law enforcement agencies, financial institutions,
+                and
+                regulatory
+                authorities. We are prepared to provide all necessary documentation and information to verify the source
+                of funps
+                when required. </p>
 
-              <p>
-                Sign, execute and deliver all necessary documents, agreements, and forms required by Crypto India for
-                availing
-                its
-                services, including but not limited to account opening, crypto wallet agreements, and other relevant
-                contracts.
-              </p>
-
-              <p>
-                Deposit and withdraw funds, give instructions for the transfer of funds and perform any other actions
-                required
-                for
-                the operation of the company's/firm’s account or services with Crypto India .
-              </p>
-
-
-              <div class="table-responsive">
-                <table class="table table-bordered "
-                  style=" text-align: center; border-collapse: collapse; width: 100%;">
-                  <thead style="font-size: 12px; text-align: center;">
-                    <tr>
-                      <th style="padding: 10px;"> NAME OF AUTHORIZED PERSON </th>
-                      <th style="padding: 10px;"> PAN NUMBER </th>
-                      <th style="padding: 10px;"> PHONE NUMBER & EMAIL ID </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% mainTrader.forEach(function(mainTrader) { %>
-                      <tr>
-                        <td style="padding: 10px;">
-                          <%= mainTrader.name %>
-                        </td>
-                        <td style="padding: 10px;">
-                          <%= mainTrader.panNumber %>
-                        </td>
-                        <td style="padding: 10px;">
-                          <%= mainTrader.phone %> <br>
-                            <%= mainTrader.email_id %>
-                        </td>
-                      </tr>
-                      <% }); %>
-                  </tbody>
-                </table>
-              </div>
-
-
-              <p>
-                The Authorized Person(s) are hereby empowered to act individually as may be required in the performance
-                of
-                their
-                duties, including signing checks, electronic fund transfers, executing contracts, and taking necessary
-                actions
-                related to the account or services with Crypto India.
-              </p>
-
-              <p>A certified true copy of this resolution be forwarded to Crypto India and any statutory or regulatory
-                authorities
-                as required. </p>
-
-              <p>
-                The resolution shall remain in force until notice in writing to Crypto India by the Company.
-              </p>
               <br />
+              <p>(Authorised Signatory - Signature & Stamp)</p>
 
-
-              <p> <small>The meeting was called to discuss and pass the board resolution with the participation of the
-                  following directors.</small>
-              </p>
-
-
-              <form class="table-responsive" onsubmit="handleSubmit(event)">
-                <table class="table table-bordered "
-                  style=" text-align: center; border-collapse: collapse; width: 100%;">
-                  <thead style="font-size: 12px; text-align: center; " class="table-dark">
+            <!-- <div class="table-responsive">
+              <table class="table table-bordered" style="text-align:center; border-collapse: collapse; width:100%;">
+                <thead style="font-size: 12px;" class="table-dark">
+                  <tr>
+                    <th>NAME OF AUTHORIZED PERSON</th>
+                    <th>PAN NUMBER</th>
+                    <th>PHONE NUMBER & EMAIL ID</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% mainTrader.forEach(function(mainTrader) { %>
                     <tr>
-                      <th>Director Name</th>
-                      <th>Email</th>
-                      <th>PAN</th>
-                      <th>Signature</th>
-                      <th>Photo</th>
+                      <td><%= mainTrader.name %></td>
+                      <td><%= mainTrader.panNumber %></td>
+                      <td><%= mainTrader.phone %> <br><%= mainTrader.email_id %></td>
                     </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div> -->
 
-                  </thead>
+            
 
+            <!-- Directors Table -->
+            <form class="table-responsive" onsubmit="handleSubmit(event)">
+              <table class="table table-bordered" style="text-align:center; border-collapse: collapse; width:100%;">
+                <thead style="font-size: 12px;" class="table-dark">
+                  <tr>
+                    <th>Director Name</th>
+                    <th>Email</th>
+                    <th>PAN</th>
+                    <th>Signature</th>
+                    <th>Photo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% directors.forEach((director, index)=> { %>
+                    <tr>
+                      <td><%= director.name %></td>
+                      <td><%= director.email_id %></td>
+                      <td><%= director.panNumber %></td>
 
-                  <tbody>
-                    <% directors.forEach((director, index)=> { %>
-                      <tr>
-                        <td style="padding: 10px;">
-                          <%= director.name %>
-                        </td>
-                        <td style="padding: 10px;">
-                          <%= director.panNumber %>
-                        </td>
-                        <td style="padding: 10px;">
-                          <%= director.email_id %>
-                        </td>
-
-                        <!-- Signature Column =================================================================-->
-                        <!-- ======================== Signature Column ======================== -->
-                        <td style="padding: 10px 0;">
-                          <% if (paramId===director._id) { %>
-                            <div class="sn_img">
-
-                              <!-- Preview Box -->
-                              <div id="signature-preview-box-<%= index %>"
-                                style="width:200px; height:120px; border:1px solid #ccc; display:flex; align-items:center; justify-content:center; margin-bottom:10px;">
-                                <span style="color:gray; font-size:12px;">No signature selected</span>
-                              </div>
-
-                              <!-- Upload Input -->
-                              <input type="file" accept="image/*" onchange="previewSignatureUpload(event, <%= index %>)"
-                                class="form-control mb-2" />
-
-                              <!-- Capture Button -->
-                              <button type="button" class="btn btn-outline-dark btn-sm mb-2" data-bs-toggle="modal"
-                                data-bs-target="#signatureModal-<%= index %>">
-                                Capture Signature
-                              </button>
-
-                              <!-- Hidden Input -->
-                              <input type="hidden" id="signature-input-<%= index %>" name="signature" />
-
+                      <!-- Signature Column -->
+                      <td>
+                        <% if (paramId === director._id) { %>
+                          <div class="sn_img">
+                            <div id="signature-preview-box-<%= index %>"
+                              style="width:200px; height:120px; border:1px solid #ccc; display:flex; align-items:center; justify-content:center; margin-bottom:10px;">
+                              <span style="color:gray; font-size:12px;">No signature selected</span>
                             </div>
+                            <input type="file" accept="image/*" onchange="previewSignatureUpload(event,<%= index %>)" class="form-control mb-2" />
+                            <button type="button" class="btn btn-outline-dark btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#signatureModal-<%= index %>">
+                              Capture Signature
+                            </button>
+                            <input type="hidden" id="signature-input-<%= index %>" name="signature" />
+                          </div>
 
-                            <!-- Camera Modal for Signature -->
-                            <div class="modal fade" id="signatureModal-<%= index %>" tabindex="-1">
-                              <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content p-3">
-                                  <div class="modal-header">
-                                    <h5 class="modal-title">Capture Signature</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                      onclick="closeSignatureCamera(<%= index %>)"></button>
-                                  </div>
-                                  <div class="modal-body text-center">
-                                    <video id="signature-video-<%= index %>" width="100%" height="200" autoplay></video>
-                                    <small class="d-block mt-2 text-muted">Allow camera & location access</small>
-                                  </div>
-                                  <div class="modal-footer d-flex justify-content-between">
-                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                                      onclick="closeSignatureCamera(<%= index %>)">Close</button>
-                                    <button type="button" class="btn btn-success"
-                                      onclick="captureSignature(<%= index %>)">Snap</button>
-                                  </div>
+                          <!-- Signature Camera Modal -->
+                          <div class="modal fade" id="signatureModal-<%= index %>" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content p-3">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Capture Signature</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="closeSignatureCamera(<%= index %>)"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                  <video id="signature-video-<%= index %>" width="100%" height="200" autoplay></video>
+                                  <small class="d-block mt-2 text-muted">Allow camera & location access</small>
+                                </div>
+                                <div class="modal-footer d-flex justify-content-between">
+                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="closeSignatureCamera(<%= index %>)">Close</button>
+                                  <button type="button" class="btn btn-success" onclick="captureSignature(<%= index %>)">Snap</button>
                                 </div>
                               </div>
                             </div>
-                            <% } else { %>
-                              <span style="color: gray;">Only accessible to this director</span>
-                              <% } %>
-                        </td>
+                          </div>
+                        <% } else { %>
+                          <span style="color:gray;">Only accessible to this director</span>
+                        <% } %>
+                      </td>
 
-                        <!-- ======================== Photo Column ======================== -->
-                        <td style="padding: 10px 0;">
-                          <% if (paramId===director._id) { %>
-                            <div class="sn_img">
-
-                              <!-- Photo Preview -->
-                              <div id="photo-preview-box-<%= index %>"
-                                style="width:200px; height:120px; border:1px solid #ccc; display:flex; align-items:center; justify-content:center; margin-bottom:10px;">
-                                <span style="color:gray; font-size:12px;">No photo captured</span>
-                              </div>
-
-                              <!-- Capture Photo Button -->
-                              <button type="button" class="btn btn-outline-dark btn-sm mb-2" data-bs-toggle="modal"
-                                data-bs-target="#photoModal-<%= index %>">
-                                Capture Photo
-                              </button>
-
-                              <!-- Hidden Photo Input -->
-                              <input type="hidden" id="photo-input-<%= index %>" name="photo">
-                              <input type="hidden" id="latitude-<%= index %>">
-                              <input type="hidden" id="longitude-<%= index %>">
-
+                      <!-- Photo Column -->
+                      <td>
+                        <% if (paramId === director._id) { %>
+                          <div class="sn_img">
+                            <div id="photo-preview-box-<%= index %>"
+                              style="width:200px; height:120px; border:1px solid #ccc; display:flex; align-items:center; justify-content:center; margin-bottom:10px;">
+                              <span style="color:gray; font-size:12px;">No photo captured</span>
                             </div>
+                            <button type="button" class="btn btn-outline-dark btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#photoModal-<%= index %>">
+                              Capture Photo
+                            </button>
+                            <input type="hidden" id="photo-input-<%= index %>" name="photo" />
+                            <input type="hidden" id="latitude-<%= index %>" />
+                            <input type="hidden" id="longitude-<%= index %>" />
+                          </div>
 
-                            <!-- Camera Modal for Photo -->
-                            <div class="modal fade" id="photoModal-<%= index %>" tabindex="-1">
-                              <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content p-3">
-                                  <div class="modal-header">
-                                    <h5 class="modal-title">Capture Photo</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                      onclick="closePhotoCamera(<%= index %>)"></button>
-                                  </div>
-                                  <div class="modal-body text-center">
-                                    <video id="photo-video-<%= index %>" width="100%" height="200" autoplay></video>
-                                    <small class="d-block mt-2 text-muted">Allow camera & location access</small>
-                                  </div>
-                                  <div class="modal-footer d-flex justify-content-between">
-                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                                      onclick="closePhotoCamera(<%= index %>)">Close</button>
-                                    <button type="button" class="btn btn-success"
-                                      onclick="capturePhoto(<%= index %>)">Snap</button>
-                                  </div>
+                          <!-- Photo Camera Modal -->
+                          <div class="modal fade" id="photoModal-<%= index %>" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content p-3">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Capture Photo</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="closePhotoCamera(<%= index %>)"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                  <video id="photo-video-<%= index %>" width="100%" height="200" autoplay></video>
+                                  <small class="d-block mt-2 text-muted">Allow camera & location access</small>
+                                </div>
+                                <div class="modal-footer d-flex justify-content-between">
+                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="closePhotoCamera(<%= index %>)">Close</button>
+                                  <button type="button" class="btn btn-success" onclick="capturePhoto(<%= index %>)">Snap</button>
                                 </div>
                               </div>
                             </div>
-                            <% } else { %>
-                              <span style="color: gray;">Only accessible to this director</span>
-                              <% } %>
-                        </td>
+                          </div>
+                        <% } else { %>
+                          <span style="color:gray;">Only accessible to this director</span>
+                        <% } %>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
 
-
-
-
-
-
-                        <!-- --------------------------------------------------------------------------------------------------- -->
-                      </tr>
-                      <% }) %>
-                  </tbody>
-
-                </table>
-                <small> dd/mm/yyyy, 00:00 PM <br /> DOC ID: #5451321 </small>
-                <button type="submit" class="btn btn-dark mt-3">Submit</button>
-              </form>
-
-
-
-
-
-
-              <br />
-
-
-
-            </div>
-
-            <!-- Fixed Footer -->
-            <div class="footer">
-              <p> DOC ID: <%= docId %>
-              </p>
-              <p> support@cryptoindia.in | www.cryptoindia.in </p>
-            </div>
-
+              <small>dd/mm/yyyy, 00:00 PM <br /> DOC ID: #5451321</small>
+              <button type="submit" class="btn btn-dark mt-3">Submit</button>
+            </form>
           </div>
-          <!-- render/export this for pdf end  -->
 
-        </div>
-      </div>
-
-
-
-
-
-
-
-
-
-      <div class="col_action">
-        <h5 class="modal-title"> <small>Upload Signature or photo</small> </h5>
-        <button class="btn btn-primary px-4" type="button" data-bs-toggle="collapse" data-bs-target="#tools-col"
-          aria-expanded="false" aria-controls="tools-col">
-          Sign on document
-          <svg width="18" class="ms-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M1.99974 13.0001L1.9996 11.0002L18.1715 11.0002L14.2218 7.05044L15.636 5.63623L22 12.0002L15.636 18.3642L14.2218 16.9499L18.1716 13.0002L1.99974 13.0001Z">
-            </path>
-          </svg>
-        </button>
-      </div>
-
-
-      <!-- signature modal -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel"> Capture Signature </h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body modal_form">
-              <div class="row">
-                <!-- step 1 -->
-                <div class="col-lg-12 d-none">
-                  <div class="dov_card text-center vc_card_upl">
-                    <div class="lc_img">
-                      <img src="https://dev.cryptoindia.in/assets/images/liveness_mockup.svg" class="img-fluid"
-                        alt="" />
-                    </div>
-                    <div class="tip_ul">
-                      <h6>Tips</h6>
-                      <ul>
-                        <li>
-                          <i class="ri-checkbox-circle-fill text-success">(✓) </i> Find a well lit place
-                        </li>
-                        <li>
-                          <i class="ri-checkbox-circle-fill text-success">(✓) </i> Please sign on white papaer only
-                        </li>
-                        <li>
-                          <i class="ri-checkbox-circle-fill text-success">(✓) </i> Please use black or blue pen for
-                          signature
-                        </li>
-                      </ul>
-                    </div>
-                    <!-- <div class="form-group mb-0 mt-2">
-                    <button type="button" class="w-100 btn-block btn btn-lg btn-warning  mt-2"
-                      onclick="openCamera(0, 'signature')">
-                      Start Capturing
-                    </button>
-                  </div> -->
-                  </div>
-                </div>
-                <!-- step 2 -->
-                <div class="col-lg-12">
-                  <div class="dov_card text-center vc_card_upl">
-                    <div class="lc_img">
-                      <video id="signature-video-modal" class="hidden round-sm" width="100%" height="100%"
-                        autoplay></video>
-                    </div>
-
-                    <div class="form-group mb-0 mt-2">
-                      <button type="button" class="w-100 btn-block btn btn-lg btn-warning  mt-2" data-bs-dismiss="modal"
-                        aria-label="Close" id="modal-signature-capture-btn">
-                        Click Signature
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- step 2end -->
-
-
-
-
-
-              </div>
-            </div>
+          <!-- Footer -->
+          <div class="footer">
+            <p>DOC ID: <%= docId %></p>
+            <p>support@cryptoindia.in | www.cryptoindia.in</p>
           </div>
         </div>
+        <!-- PDF Viewer End -->
       </div>
+    </div>
+  </div>
+</main>
 
-
-
-
-  </main>
 
 
 
@@ -1338,7 +1126,7 @@
     try {
       const results = await Promise.all(
         payloads.map(data =>
-          fetch(`/v1/user/entity/submitSanctionSignature/${token}`, {
+          fetch(`/v1/user/entity/submitDeclaration/${token}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
