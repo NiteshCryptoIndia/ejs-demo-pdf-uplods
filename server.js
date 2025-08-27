@@ -648,19 +648,47 @@ app.get('/declration/pdf',(req,res)=>{
     }
 
   ];
-  res.render("declreationPDF", {
- entityName: "Entity Name Here",
-    companyName: "CRYPTO INDIA (INCRYP BLOCKCHAIN PRIVATE LIMITED)",
-    date: "25/08/2025",
-    time: "10:00 AM",
-    address: "Your Address",
+  const companyName = "CRYPTO INDIA (INCRYP BLOCKCHAIN PRIVATE LIMITED)"
+  const declarationDate = "21-02-25"
+  const uboList =[
+    {
+        _id:'68a5da0d03b90bc23df24a2d',
+    userId: '68a5c410210049c1ebc51ba5',
+    serviceSessionId: '2c52feae-5d39-4896-a186-9debafa393ca',
+    serviceName: 'add-director',
+    serviceVerified: true,
+    directorId: '68a5d88303b90bc23df2497b',
+    name: 'ASHOK KUMAR CHOUDHARY',
+    email_id: 'divyam@cryptoindia.in',
+    signature:"https://media.istockphoto.com/id/814423752/photo/eye-of-model-with-colorful-art-make-up-close-up.jpg?s=612x612&w=0&k=20&c=l15OdMWjgCKycMMShP8UK94ELVlEGvt7GmB_esHWPYE=",
+    signedAt:"11-04-25",
+    photo:"https://media.istockphoto.com/id/814423752/photo/eye-of-model-with-colorful-art-make-up-close-up.jpg?s=612x612&w=0&k=20&c=l15OdMWjgCKycMMShP8UK94ELVlEGvt7GmB_esHWPYE=",
+    photoAt:"18-06-25",
+    phone: '9000000001',
+    panNumber: 'EWOPK7188D',
+    maskedAdhaar: 'XXXXXXXX6152',
+    mainTrader: true,
+    isDeleted: false,
+    isLatest: true,
+    __v: 0,
+    sharePercentage: '30'
+    }
+  ]
+  res.render("declreationPDFEmailSend", {
     docId: "DOC123-45rtyrt6-876434ht-fgdjuyt8er5-ds745nds",
-    directors,
-    mainTrader,
-    paramId: '6880a1b5986ee32d03d1a14a',
-    token: 'token',
-    userId: 'userId',
     directorDetails: directors,
+        entityName: companyName,
+        companyName,
+        date: declarationDate,
+        time: "10:00 AM",
+        address: "companyDetails.registered_address",
+        docId: "DOC123-45rtyrt6-876434ht-fgdjuyt8er5-ds745nds",
+        uboList,
+        mainTrader:uboList,
+        paramId: "directorId",
+        token: 'token',
+        userId: 'userId',
+        directors: uboList,
 });
 
 })

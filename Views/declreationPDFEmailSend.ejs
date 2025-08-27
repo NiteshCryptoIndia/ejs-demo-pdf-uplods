@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content=" initial-scale=1.0">
+  <title> Letter OF Authorization </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<style>
+  body {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    font-size: 13px;
+    background: #f5f5f5;
+  }
+
+  header {
+    display: flex;
+    gap: .75rem;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--panel);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .stack {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+
+  button.primary {
+    background: #000000;
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  button,
+  .btn {
+    /* border: 0; */
+    padding: 12px 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 13px;
+    border: 1px solid inset;
+    box-shadow: none !important;
+  }
+
+
+  .row {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .col {
+    background: var(--panel);
+    border-radius: 14px;
+    padding: 16px;
+  }
+
+
+  .pdf_iframe {
+    flex: 2;
+    min-width: 250px;
+  }
+
+  .vstack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+
+  .vstack_step {
+    position: relative;
+    padding-left: 20px;
+    border-left: 1px dashed #333;
+    border-radius: 0;
+  }
+
+  .vstack_step h6 span {
+    line-height: 1;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: -11px;
+    background: #0a0f1a;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 10px;
+    top: 0px;
+  }
+
+  .vstack_step h6 {
+    margin-top: -1px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .pdf_iframe {
+    width: 100%;
+    background: #fff;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    overflow-y: auto;
+    height: calc(100vh - 135px);
+    box-shadow: rgba(0, 0, 0, 0.062) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+  }
+
+  #viewer-col {
+    flex: 3;
+    min-width: 250px;
+  }
+
+  #tools-col {
+    width: 360px;
+    max-width: 40vw;
+  }
+
+  main {
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+  }
+
+  .vstack {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .vstack_inner {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .divider {
+    height: 1px;
+    background: #1f2937;
+    margin: 8px 0;
+  }
+
+  .sig-wrap {
+    background: #ffffff;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+  }
+
+  .sign_canvas {
+    display: block;
+    border: 1.5px dashed #5353537d;
+    border-radius: 8px;
+    touch-action: none;
+    object-fit: scale-down;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .registration__info {
+    margin: 0px auto 0px;
+    display: flex;
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.7;
+    font-weight: 500;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .registration__info span {
+    height: 1px;
+    width: calc(50% - 20px);
+    background-color: #00000075;
+    display: inline-flex;
+  }
+
+  .click_canvas_inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    gap: 6px;
+  }
+
+  .click_canvas_inner svg {
+    opacity: 0.5;
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  .tip_ul {
+    text-align: left;
+    margin: 11px 0;
+  }
+
+  .tip_ul h6 {
+    font-size: 14px;
+    font-display: 700;
+    margin-bottom: 6px;
+  }
+
+  .tip_ul li i {
+    font-weight: normal;
+    font-size: 14px;
+    margin-right: 6px;
+  }
+
+  .tip_ul li {
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    padding: 0;
+  }
+
+
+  video.round-sm {
+    border-radius: 10px;
+  }
+
+  @media (min-width: 1200px) {
+
+    #tools-col.collapse:not(.show) {
+      display: flex;
+    }
+
+    .vstack_title,
+    .col_action {
+      display: none;
+    }
+
+  }
+
+  @media screen and (min-width: 250px) and (max-width: 1199px) {
+
+    .letterhead small {
+      top: -24px !important;
+    }
+
+    .content {
+      margin: 35px auto 25px auto !important;
+    }
+
+
+    header {
+      padding-bottom: 0;
+    }
+
+    header~.row {
+      display: flex;
+      gap: 0;
+      padding: 16px;
+      flex-direction: column;
+    }
+
+    .pdf_iframe {
+      padding: 0 22px;
+      width: 100%;
+      height: -webkit-fill-available;
+      overflow: unset;
+      margin-bottom: 77px;
+    }
+
+    #viewer-col {
+      padding-top: 0;
+    }
+
+    #tools-col {
+      z-index: 10;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 100%;
+      left: 0;
+      right: 0;
+      padding: 0;
+      transition: 0.3s all;
+    }
+
+    .cc_tm {
+
+      background: #fff;
+      padding: 50px;
+      position: absolute;
+      bottom: 0;
+      margin: 0 auto;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      /* box-shadow: rgba(0, 0, 0, 0.062) 0px -20px 25px 5px, rgba(0, 0, 0, 0.04) 0px -15px 10px 4px; */
+      border-radius: 50px 50px 0 0;
+      z-index: 10;
+      max-height: calc(100vh - 55px);
+      overflow-y: auto;
+    }
+
+    #tools-col:after {
+      content: "";
+      background-color: #00000054;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .vstack_step {
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    .vstack_title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 572px;
+      margin: -15px auto 40px;
+    }
+
+    .vstack_step h6 {
+      font-weight: 600;
+    }
+
+    .modal-title {
+      font-weight: 700;
+      font-size: 24px;
+    }
+
+    .col_action {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      padding: 20px 20px 20px 20px;
+      justify-content: space-between;
+      display: flex;
+      align-items: center;
+      box-shadow: rgb(0 0 0 / 13%) 0px -20px 25px -5px, rgba(0, 0, 0, 0.04) 0px -10px 10px -5px;
+      border-radius: 30px 30px 0 0;
+    }
+
+    .col_action .modal-title small {
+      font-size: 18px;
+    }
+
+  }
+
+  @media screen and (min-width: 250px) and (max-width: 650px) {
+
+
+    .stack .btn {
+      font-size: 11px;
+      padding: 7px 15px !important;
+    }
+
+    .header {
+      align-items: self-start !important;
+      justify-content: space-between;
+      flex-direction: column-reverse !important;
+      gap: 15px;
+    }
+
+    .header h2 {
+      font-size: 16px;
+    }
+
+    .col_action .modal-title {
+      display: none;
+      font-size: 16px;
+    }
+
+    .modal-title {
+      font-size: 16px;
+    }
+
+    .col_action .btn {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .col_action {
+      padding: 17px;
+    }
+
+    .vstack_title .modal-title {
+      display: inline-flex;
+      font-size: 18px;
+    }
+
+    .cc_tm {
+      padding: 22px;
+      border-radius: 20px 20px 0 0;
+
+    }
+
+    .cc_tm::-webkit-scrollbar {
+      width: 0;
+    }
+
+    .vstack_title {
+      max-width: 572px;
+      margin: 0px auto 30px;
+    }
+
+  }
+
+
+
+
+
+  @media print {
+    header {
+      display: none;
+    }
+
+    #tools-col.collapse:not(.show) {
+      display: none;
+    }
+
+    .vstack_title,
+    .col_action {
+      display: none;
+    }
+
+    .pdf_iframe {
+      width: 100%;
+      background: none;
+      border-radius: 0;
+      position: relative;
+      overflow: unset;
+      overflow-y: unset;
+      height: unset;
+      box-shadow: none;
+    }
+  }
+</style>
+
+<body>
+
+
+  <main>
+    <header>
+      <div>
+        <img src="https://dev.cryptoindia.in/logo.svg" width="180" class="img-fluid" alt="Logo" />
+      </div>
+      <!-- <div class="stack" style="margin-left:auto;">
+      <button class="btn btn-dark btn-sm px-4">Download Signed PDF</button>
+    </div> -->
+    </header>
+
+    <div class="row">
+      <div id="viewer-col" class="col">
+        <div class="pdf_iframe">
+
+          <!-- PDF Render Area -->
+          <div class="pdf_viewer">
+            <style>
+              .pdf_viewer {
+                font-family: "Plus Jakarta Sans", sans-serif;
+                margin: 0;
+                padding: 0;
+                line-height: 1.6;
+                background: #fff;
+                font-size: 13px;
+              }
+
+              .header,
+              .footer {
+                position: relative;
+                left: 0;
+                right: 0;
+                padding: 20px 0;
+                max-width: 800px;
+                margin: 0 auto;
+              }
+
+              .header {
+                border-bottom: 1px solid #b4b4b4;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              }
+
+              .header small {
+                font-size: 12px;
+                margin: 0 0 5px;
+                display: block;
+              }
+
+              .header h2 {
+                font-size: 22px;
+                margin: 0;
+              }
+
+              .footer {
+                border-top: 1px solid #b4b4b4;
+                text-align: center;
+                font-size: 12px;
+              }
+
+              .footer p {
+                margin: 0;
+              }
+
+              .content {
+                max-width: 800px;
+                margin: 50px auto;
+                padding: 10px 0;
+              }
+
+              .letterhead {
+                text-align: center;
+                margin-bottom: 20px;
+              }
+
+              .letterhead small {
+                position: absolute;
+                top: -7px;
+                left: 0;
+              }
+
+              .letterhead p {
+                font-size: 11px;
+              }
+
+              .letterhead p strong {
+                font-size: 20px;
+              }
+
+              .sn_img {
+                text-align: center;
+              }
+
+              .sn_img img {
+                margin: 0 auto 4px;
+                display: block;
+              }
+
+              .sn_img small {
+                font-size: 10px;
+              }
+
+              @media print {
+                .content {
+                  max-width: 800px;
+                  margin: 10px auto;
+                }
+
+                .page-break {
+                  page-break-before: always;
+                  margin-bottom: 0;
+                }
+              }
+            </style>
+
+            <!-- Header -->
+            <div class="header">
+              <h2>CRYPTO INDIA (INCRYP BLOCKCHAIN PRIVATE LIMITED)</h2>
+              <div class="logo">
+                <img src="https://dev.cryptoindia.in/logo.svg" width="110" class="img-fluid" alt="Logo" />
+              </div>
+            </div>
+
+            <!-- Letter Content -->
+            <div class="content">
+              <div class="letterhead">
+                <p>
+                  <strong>BOARD RESOLUTION</strong><br>
+                  FOR APPOINTMENT OF AUTHORIZED SIGNATORY
+                </p>
+              </div>
+
+              <div class="date">
+                <small> DOC ID : <%= docId %> </small>
+                <p>Date: <%- date %> </p>
+              </div>
+
+              <p>I, <b>
+                  <%= mainTrader[0].name %>
+                </b>, in my capacity as the Director of <b><%- entityName %></b>, hereby declare
+                and affirm
+                that all funds
+                will be transferred by our company to CRYPTO INDIA (INCRYP BLOCKCHAIN PRIVATE LIMITED) in INR (Indian
+                Currency)
+                and any other crypto currency, are obtained from legitimate and legal sources. The funds are fully
+                compliant with
+                all
+                applicable laws, regulations, and guidelines, including Anti-Money Laundering (AML) and
+                Counter-Terrorist
+                Financing
+                (CTF) regulation</b>.
+              </p>
+
+              <p>We further declare that: </p>
+
+              <p> <b>1. Legitimate Source:</b> All funds used in our company's financial operations, including the
+                acquisition of
+                crypto
+                assets,
+                are free from any association with illegal activities such as money laundering, tax evasion, or
+                terrorist
+                financing. </p>
+              <p> <b> 2. Compliance with AML Regulations:</b> Our company follows stringent internal controls and
+                compliance
+                measures,
+                ensuring full adherence to AML, CTF, and Know Your Customer (KYC) guidelines as stipulated by regulatory
+                authorities. </p>
+              We have systems in place to detect and prevent suspicious or unlawful financial activities.
+              <p> <b> 3. Due Diligence: </b> Our company undertakes regular due diligence on all counterparties and
+                customers to
+                verify the
+                legitimacy of funds, consistent with legal requirements, before entering any transaction involving
+                crypto assets
+                or
+                traditional financial services. </p>
+              <p> <b>4. Ethical Standards:</b> Our company upholds the highest standards of ethical conduct in all
+                financial
+                dealings,
+                ensuring
+                that funds used in all transactions are derived from legitimate business activities and are compliant
+                with
+                domestic and international regulations. </p>
+              <p> <b>5. Cooperation with Authorities:</b> In the event of any suspicion, inquiry, or investigation into
+                the source
+                of our
+                company's funds, we commit to full cooperation with law enforcement agencies, financial institutions,
+                and
+                regulatory
+                authorities. We are prepared to provide all necessary documentation and information to verify the source
+                of funps
+                when required. </p>
+
+              <br />
+              <p>(Authorised Signatory - Signature & Stamp)</p>
+
+
+              <!-- Directors Table -->
+              <form class="table-responsive" onsubmit="handleSubmit(event)">
+                <table class="table table-bordered" style="text-align:center; border-collapse: collapse; width:100%;">
+                  <thead style="font-size: 12px;" class="table-dark">
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>PAN</th>
+                      <th>Signature</th>
+                      <th>Photo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% mainTrader.forEach((director, index)=> { %>
+                      <tr>
+                        <td>
+                          <%= director.name %>
+                        </td>
+                        <td>
+                          <%= director.email_id %>
+                        </td>
+                        <td>
+                          <%= director.panNumber %>
+                        </td>
+
+                        <!-- Signature Column -->
+                        <td style="padding:10px;">
+                          <div class="sn_img">
+                            <% if (director.signature) { %>
+                              <img src="<%= director.signature %>" width="100" />
+                              <small>
+                                <%= director.signedAt %>
+                              </small>
+                              <% } else { %>
+                                <span style="color:gray;">No Signature</span>
+                                <% } %>
+                          </div>
+                        </td>
+
+                        <!-- Photo Column -->
+                        <td style="padding:10px;">
+                          <div class="sn_img">
+                            <% if (director.photo) { %>
+                              <img src="<%= director.photo %>" width="100" />
+                              <small>
+                                <%= director.photoAt %>
+                              </small>
+                              <% } else { %>
+                                <span style="color:gray;">No Photo</span>
+                                <% } %>
+                          </div>
+                        </td>
+                      </tr>
+                      <% }) %>
+                  </tbody>
+                </table>
+
+                <!-- <small>dd/mm/yyyy, 00:00 PM <br /> DOC ID: #5451321</small> -->
+                <!-- <button type="submit" class="btn btn-dark mt-3">Submit</button> -->
+              </form>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+              <!-- <p>DOC ID: <%= docId %>
+              </p> -->
+              <p>support@cryptoindia.in | www.cryptoindia.in</p>
+            </div>
+          </div>
+          <!-- PDF Viewer End -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+
+
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script>
+  /* ================= Signature Functions ================= */
+  function previewSignatureUpload(event, index) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        document.getElementById(`signature-preview-box-${index}`).innerHTML =
+          `<img src="${e.target.result}" style="max-width:100%; max-height:100%;" />`;
+        document.getElementById(`signature-input-${index}`).value = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // When signature modal opens → check location → start camera
+  document.addEventListener("shown.bs.modal", function (event) {
+    const modal = event.target;
+    if (modal.id.startsWith("signatureModal-")) {
+      const index = modal.id.split("-")[1];
+      requestLocationForSignature(index, modal);
+    }
+  });
+
+  function requestLocationForSignature(index, modalEl) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        () => openSignatureCamera(index),
+        () => {
+          alert(" Location access denied! Cannot capture signature.");
+          bootstrap.Modal.getInstance(modalEl).hide();
+        }
+      );
+    } else {
+      alert("Geolocation not supported");
+      bootstrap.Modal.getInstance(modalEl).hide();
+    }
+  }
+
+  function openSignatureCamera(index) {
+    const video = document.getElementById(`signature-video-${index}`);
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => video.srcObject = stream)
+      .catch(() => alert("Camera not accessible for signature"));
+  }
+
+  function captureSignature(index) {
+    const video = document.getElementById(`signature-video-${index}`);
+    if (!video.srcObject) {
+      alert(" No camera stream for signature");
+      return;
+    }
+    const canvas = document.createElement("canvas");
+    canvas.width = 200;
+    canvas.height = 120;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const dataURL = canvas.toDataURL("image/png");
+
+    document.getElementById(`signature-preview-box-${index}`).innerHTML =
+      `<img src="${dataURL}" style="max-width:100%; max-height:100%;" />`;
+    document.getElementById(`signature-input-${index}`).value = dataURL;
+
+    bootstrap.Modal.getInstance(document.getElementById(`signatureModal-${index}`)).hide();
+    closeSignatureCamera(index);
+  }
+
+  function closeSignatureCamera(index) {
+    const video = document.getElementById(`signature-video-${index}`);
+    if (video.srcObject) {
+      video.srcObject.getTracks().forEach(track => track.stop());
+      video.srcObject = null;
+    }
+  }
+
+  /* ================= Photo Functions ================= */
+  document.addEventListener("shown.bs.modal", function (event) {
+    const modal = event.target;
+    if (modal.id.startsWith("photoModal-")) {
+      const index = modal.id.split("-")[1];
+      requestLocationForPhoto(index, modal);
+    }
+  });
+
+  function requestLocationForPhoto(index, modalEl) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        () => openPhotoCamera(index),
+        () => {
+          alert(" Location access denied! Cannot capture photo.");
+          bootstrap.Modal.getInstance(modalEl).hide();
+        }
+      );
+    } else {
+      alert("Geolocation not supported");
+      bootstrap.Modal.getInstance(modalEl).hide();
+    }
+  }
+
+  function openPhotoCamera(index) {
+    const video = document.getElementById(`photo-video-${index}`);
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => video.srcObject = stream)
+      .catch(() => alert("Camera not accessible for photo"));
+  }
+
+  function capturePhoto(index) {
+    const video = document.getElementById(`photo-video-${index}`);
+    if (!video.srcObject) {
+      alert(" No camera stream for photo");
+      return;
+    }
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          document.getElementById(`latitude-${index}`).value = position.coords.latitude;
+          document.getElementById(`longitude-${index}`).value = position.coords.longitude;
+        },
+        () => {
+          alert("Location permission denied.");
+        }
+      );
+    } else {
+      alert("Geolocation not supported.");
+    }
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth || 200;
+    canvas.height = video.videoHeight || 200;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const dataURL = canvas.toDataURL("image/png");
+
+    document.getElementById(`photo-preview-box-${index}`).innerHTML =
+      `<img src="${dataURL}" style="max-width:100%; max-height:100%;" />`;
+    document.getElementById(`photo-input-${index}`).value = dataURL;
+
+    bootstrap.Modal.getInstance(document.getElementById(`photoModal-${index}`)).hide();
+    closePhotoCamera(index);
+  }
+
+  function closePhotoCamera(index) {
+    const video = document.getElementById(`photo-video-${index}`);
+    if (video.srcObject) {
+      video.srcObject.getTracks().forEach(track => track.stop());
+      video.srcObject = null;
+    }
+  }
+
+
+  // --- Signature/photo upload/capture preview logic ---
+  var directors = <% - JSON.stringify(directors) %>;
+  var paramId = '<%= paramId %>';
+  var currentSignatureIndex = null;
+  console.log(directors)
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Signature upload/capture button in table opens modal for correct director
+    document.querySelectorAll('.signature-capture-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        currentSignatureIndex = btn.getAttribute('data-index');
+      });
+    });
+
+    // Modal signature upload
+    var modalSigUpload = document.getElementById('modal-signature-upload');
+    if (modalSigUpload) {
+      modalSigUpload.addEventListener('change', function (e) {
+        var file = e.target.files[0];
+        console.log(file)
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+          var idx = currentSignatureIndex;
+          var sigCanvas = document.getElementById('canvas-signature-' + idx);
+          if (sigCanvas) {
+            var img = new Image();
+            img.onload = function () {
+              var ctx = sigCanvas.getContext('2d');
+              ctx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+              ctx.drawImage(img, 0, 0, sigCanvas.width, sigCanvas.height);
+            };
+            img.src = evt.target.result;
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function openCamera(index, type) {
+      const video = document.getElementById(`${type}-video-${index}`);
+      video.classList.remove("hidden");
+
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          video.srcObject = stream;
+        })
+        .catch(() => alert("Camera not available."));
+    }
+    // Open file dialog when label is clicked
+    var label = document.querySelector('label.btn-dark input#modal-signature-upload');
+    if (label) {
+      label.parentElement.addEventListener('click', function () {
+        window.setTimeout(function () {
+          modalSigUpload.value = '';
+        }, 100);
+      });
+
+    }
+
+    // Modal signature capture button
+    var modalCaptureBtn = document.getElementById('modal-signature-capture-btn');
+    if (modalCaptureBtn) {
+      modalCaptureBtn.onclick = function () {
+        var idx = currentSignatureIndex;
+        var video = document.getElementById('signature-video-modal');
+        var sigCanvas = document.getElementById('canvas-signature-' + idx);
+        if (video && sigCanvas) {
+          var ctx = sigCanvas.getContext('2d');
+          ctx.drawImage(video, 0, 0, sigCanvas.width, sigCanvas.height);
+          if (video.srcObject) {
+            video.srcObject.getTracks().forEach(track => track.stop());
+          }
+          video.classList.add('hidden');
+        }
+      };
+    }
+
+    // Photo file upload (unchanged)
+    directors.forEach(function (director, index) {
+      if (paramId === director._id) {
+        var photoFile = document.getElementById('photo-file-' + index);
+        var photoCanvas = document.getElementById('canvas-photo-' + index);
+        var photoPreview = document.getElementById('photo-preview-' + index);
+        if (photoFile) {
+          photoFile.addEventListener('change', function (e) {
+            var file = e.target.files[0];
+            if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function (evt) {
+              var img = new Image();
+              img.onload = function () {
+                var ctx = photoCanvas.getContext('2d');
+                ctx.clearRect(0, 0, photoCanvas.width, photoCanvas.height);
+                ctx.drawImage(img, 0, 0, photoCanvas.width, photoCanvas.height);
+                photoPreview.src = evt.target.result;
+                photoPreview.style.display = 'inline-block';
+              };
+              img.src = evt.target.result;
+            };
+            reader.readAsDataURL(file);
+          });
+        }
+        // Photo capture (from canvas)
+        var photoCaptureBtns = document.querySelectorAll('.photo-capture-btn[data-index="' + index + '"]');
+        photoCaptureBtns.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var dataUrl = photoCanvas.toDataURL('image/png');
+            photoPreview.src = dataUrl;
+            photoPreview.style.display = 'inline-block';
+          });
+        });
+      }
+    });
+  });
+
+
+
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const directorData = <% - JSON.stringify(directors) %>;
+    const paramId = "<%= paramId %>";
+    const token = "<%= token %>";
+    const userId = "<%= userId %>";
+    const docId = "<%= docId %>";
+
+    const payloads = [];
+
+    directorData.forEach((director, index) => {
+      if (director._id === paramId) {
+        const signature = document.getElementById(`signature-input-${index}`).value;
+        const photo = document.getElementById(`photo-input-${index}`).value;
+        const latitude = document.getElementById(`latitude-${index}`).value;
+        const longitude = document.getElementById(`longitude-${index}`).value;
+
+
+        if (!signature || !photo) {
+          alert("Please capture both Signature and Photo before submitting.");
+          return;
+        }
+
+        payloads.push({
+          directorID: director._id,
+          name: director.name,
+          email: director.email_id,
+          image: signature,        // Signature image base64
+          userPhoto: photo,        // Photo image base64
+          panNumber: director.panNumber,
+          docname: "Loa",
+          userId,
+          latitude,
+          longitude,
+          docId
+        });
+      }
+    });
+
+    if (!payloads.length) {
+      alert("No data to submit.");
+      return;
+    }
+
+    try {
+      const results = await Promise.all(
+        payloads.map(data =>
+          fetch(`/v1/user/entity/submitDeclaration/${token}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+          }).then(res => res.json())
+        )
+      );
+
+      const allSuccess = results.every(r => r.success);
+      if (allSuccess) {
+        alert("Submitted successfully. PDF will be generated.");
+        // yaha agar tum chaho to redirect bhi kara sakte ho
+        // window.location.href = "/download-pdf";
+      } else {
+        alert("Some submissions failed.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Submission error.");
+    }
+  }
+
+
+
+</script>
+
+
+</html>
