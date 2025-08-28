@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Sanction Questionnaire </title>
+  <style>
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      font-size: 13px;
+    }
+
+    .header,
+    .footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      padding: 20px 0;
+      max-width: 800px;
+      margin: 0 auto;
+      z-index: 1;
+    }
+
+    .header {
+      top: 0;
+      border-bottom: 1px solid #b4b4b4;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header small {
+      font-size: 12px;
+      line-height: 1.2;
+      margin: 0 0 5px;
+      display: block;
+
+    }
+
+    .header h2 {
+      font-size: 22px;
+      line-height: 1;
+      margin: 0;
+    }
+
+    .footer {
+      bottom: 0;
+      border-top: 1px solid #b4b4b4;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .footer p {
+      margin: 0;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 100px auto 50px auto;
+      padding: 10px 0;
+      position: relative;
+    }
+
+    .letterhead small {
+      position: absolute;
+      top: -7px;
+      left: 0;
+    }
+
+    .letterhead {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .letterhead p {
+      font-size: 11px;
+    }
+
+    .letterhead p strong {
+      font-size: 20px;
+
+    }
+
+    .sender,
+    .receiver,
+    .date,
+    .time {
+      margin-bottom: 20px;
+    }
+
+
+    .signature {
+      margin-top: 50px;
+    }
+
+    .d-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sn_img {
+      text-align: center;
+    }
+
+    .sn_img img {
+      margin: 0 auto 4px;
+      display: block;
+    }
+
+    .sn_img small {
+      font-size: 10px;
+    }
+
+
+    .columns {
+      display: flex;
+      gap: 40px;
+    }
+
+    .column {
+      flex: 1;
+    }
+
+    label {
+      display: block;
+      margin: 4px 0;
+    }
+
+
+
+
+    /* Print settings */
+    @media print {
+
+      /* @page  {
+        padding-top: 120px;  
+      }   */
+
+
+      .content {
+        max-width: 800px;
+        margin: 10px auto 10px auto;
+        /* space for header & footer */
+        padding: 10px 0;
+      }
+
+      /* Force page breaks for demo */
+      .page-break {
+        page-break-before: always;
+        margin-bottom: 0px;
+      }
+
+      .header,
+      .footer {
+        position: relative;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <!-- Fixed Header -->
+  <div class="header">
+    <h2> Entity Name Here</h2>
+    <div class="logo">
+      <img src="https://dev.cryptoindia.in/logo.svg" width="110" class="img-fluid" alt="" />
+    </div>
+  </div>
+
+  <!-- Letter Content -->
+  <div class="content">
+
+    <div class="letterhead">
+      <small> DOC ID : #54654321654 </small>
+      <p><strong> Sanctions Questionnaire </strong>
+      </p>
+    </div>
+
+    <div class="date">
+      <p>Date: _ _ _ _ _ _ _ _ </p>
+    </div>
+
+    <p> Legal Entity Name: <b>---------- </b> </p>
+    <p> CIN/ Registration Number: <b>---------- </b> </p>
+    <p> Registered Address :<b>---------- </b> </p>
+    <p>Company's Operations Address: <b>---------- </b> </p>
+    <br />
+    <p> Please tick whichever region is applicable:
+    </p>
+
+    <div class="table-responsive">
+      <table border="1" class="table table-bordered "
+        style=" text-align: start; border-collapse: collapse; width: 100%;">
+        <tr style="vertical-align: middle;">
+          <td>
+            <p style=" max-width: 450px; padding: 10px">Does your Company or any Director directly or
+              indirectly engage in or plan to engage in activity with
+              or in any of the following Sanctioned Countries /
+              Regions?</p>
+          </td>
+          <td>
+            <div>
+              <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; " for="css">
+                <input type="radio" id="css" name="fav_language" value="CSS">
+                Yes </label>
+
+              <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; " for="css">
+                <input type="radio" id="css" name="fav_language" value="CSS">
+                No
+              </label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 10px 10px 10px;">
+            <p> <b>Grey Listed Countries</b> </p>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Albania</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Barbados</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Burkina Faso</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Cameroon</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox"> Cayman
+              Islands</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Democratic Republic of the Congo</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Gibraltar</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Haiti</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Jamaica</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Jordan</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Mali</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Mozambique</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Nigeria</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Panama</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Philippines</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Senegal</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox"> South
+              Africa</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox"> South
+              Sudan</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Syria</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Tanzania</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Turkey</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Uganda</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox"> United
+              Arab Emirates (UAE)</label>
+            <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+              Yemen</label>
+          </td>
+          <td style="vertical-align: top; ">
+            <div class="" style="padding: 0 10px 10px 10px; ">
+              <p> <b>Blacklisted Countries</b> </p>
+              <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+                North Korea</label>
+              <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox">
+                Iran</label>
+              <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox"> No
+                One from both list</label>
+            </div>
+            <hr />
+            <div class="" style="padding: 10px; ">
+              <p> Entity Name: <b>---------- </b> </p>
+              <p> Mobile Number:: <b>---------- </b> </p>
+              <p> Date :<b>---------- </b> </p>
+            </div>
+            <hr />
+            <div class="" style="padding: 10px; ">
+              <p> Company Stamp & Signature of Authorized Signatory </p>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
+    <br />
+    <p> Please sign or upload photo
+    </p>
+    <div class="table-responsive">
+      <table border="1" class="table table-bordered "
+        style=" text-align: center; border-collapse: collapse; width: 100%;">
+        <thead style="font-size: 12px; text-align: center;">
+          <tr>
+            <th style="padding: 10px;"> NAME </th>
+            <th style="padding: 10px;"> Mobile Number </th>
+            <th style="padding: 10px;"> Declaration Date </th>
+            <th style="padding: 10px;"> Signature </th>
+            <th style="padding: 10px;"> Photo </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 10px;"> -- </td>
+            <td style="padding: 10px;"> -- </td>
+            <td style="padding: 10px;"> -- </td>
+            <td style="padding: 10px 0;">
+              <div class="sn_img ">
+                <image src="https://i.pinimg.com/736x/04/c6/83/04c683fbd9f24c509df57b559bdc0e91.jpg" width="100" />
+                <small> dd/mm/yyyy, 00:00 PM <br /> Sign ID: #524654 </small>
+              </div>
+            </td>
+            <td style="padding: 10px 0;">
+              <div class="sn_img ">
+                <image
+                  src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
+                  width="80" />
+                <small> dd/mm/yyyy, 00:00 PM <br /> DOC ID: #5451321 </small>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <br />
+
+
+
+
+  </div>
+
+  <!-- Fixed Footer -->
+  <div class="footer">
+    <p> DOC ID: #56465652165465 </p>
+    <p> support@cryptoindia.in | www.cryptoindia.in </p>
+  </div>
+
+
+</body>
+
+</html>

@@ -82,7 +82,27 @@
       <div>
         <label class="form-label">Grey Listed Countries:</label>
         <ul>
-          <% ["Albania", "Barbados", "Nigeria", "Turkey", "Yemen"].forEach(c => { %>
+          <% const countries = [
+  "Democratic Republic of the Congo",
+  "Gibraltar",
+  "Haiti",
+  "Jamaica",
+  "Jordan",
+  "Mali",
+  "Mozambique",
+  "Nigeria",
+  "Panama",
+  "Philippines",
+  "Senegal",
+  "South Africa",
+  "South Sudan",
+  "Syria",
+  "Tanzania",
+  "Turkey",
+  "Uganda",
+  "United Arab Emirates (UAE)",
+  "Yemen"
+].forEach(c => { %>
             <li><input type="checkbox" name="greyList" value="<%= c %>"> <%= c %></li>
           <% }) %>
         </ul>

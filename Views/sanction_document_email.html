@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content=" initial-scale=1.0">
+  <title> Letter OF Authorization </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<style>
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  body {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    font-size: 13px;
+    background: #f5f5f5;
+  }
+
+  header {
+    display: flex;
+    gap: .75rem;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--panel);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .stack {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+
+  button.primary {
+    background: #000000;
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  button,
+  .btn {
+    /* border: 0; */
+    padding: 12px 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 13px;
+    border: 1px solid inset;
+    box-shadow: none !important;
+  }
+
+
+  .row {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .col {
+    background: var(--panel);
+    border-radius: 14px;
+    padding: 16px;
+  }
+
+
+  .pdf_iframe {
+    flex: 2;
+    min-width: 250px;
+  }
+
+  .vstack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+
+  .vstack_step {
+    position: relative;
+    padding-left: 20px;
+    border-left: 1px dashed #333;
+    border-radius: 0;
+  }
+
+  .vstack_step h6 span {
+    line-height: 1;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: -11px;
+    background: #0a0f1a;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 10px;
+    top: 0px;
+  }
+
+  .vstack_step h6 {
+    margin-top: -1px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .pdf_iframe {
+    width: 100%;
+    background: #fff;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    overflow-y: auto;
+    height: calc(100vh - 135px);
+    box-shadow: rgba(0, 0, 0, 0.062) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+  }
+
+  #viewer-col {
+    flex: 3;
+    min-width: 250px;
+  }
+
+  #tools-col {
+    width: 360px;
+    max-width: 40vw;
+  }
+
+  main {
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+  }
+
+  .vstack {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .vstack_inner {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .divider {
+    height: 1px;
+    background: #1f2937;
+    margin: 8px 0;
+  }
+
+  .sig-wrap {
+    background: #ffffff;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+  }
+
+  .sign_canvas {
+    display: block;
+    border: 1.5px dashed #5353537d;
+    border-radius: 8px;
+    touch-action: none;
+    object-fit: scale-down;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .registration__info {
+    margin: 0px auto 0px;
+    display: flex;
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.7;
+    font-weight: 500;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .registration__info span {
+    height: 1px;
+    width: calc(50% - 20px);
+    background-color: #00000075;
+    display: inline-flex;
+  }
+
+  .click_canvas_inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    gap: 6px;
+  }
+
+  .click_canvas_inner svg {
+    opacity: 0.5;
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  .tip_ul {
+    text-align: left;
+    margin: 11px 0;
+  }
+
+  .tip_ul h6 {
+    font-size: 14px;
+    font-display: 700;
+    margin-bottom: 6px;
+  }
+
+  .tip_ul li i {
+    font-weight: normal;
+    font-size: 14px;
+    margin-right: 6px;
+  }
+
+  .tip_ul li {
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    padding: 0;
+  }
+
+
+  video.round-sm {
+    border-radius: 10px;
+  }
+
+  @media (min-width: 1200px) {
+
+    #tools-col.collapse:not(.show) {
+      display: flex;
+    }
+
+    .vstack_title,
+    .col_action {
+      display: none;
+    }
+
+  }
+
+  @media screen and (min-width: 250px) and (max-width: 1199px) {
+
+    .letterhead small {
+      top: -24px !important;
+    }
+
+    .content {
+      margin: 35px auto 25px auto !important;
+    }
+
+
+    header {
+      padding-bottom: 0;
+    }
+
+    header~.row {
+      display: flex;
+      gap: 0;
+      padding: 16px;
+      flex-direction: column;
+    }
+
+    .pdf_iframe {
+      padding: 0 22px;
+      width: 100%;
+      height: -webkit-fill-available;
+      overflow: unset;
+      margin-bottom: 77px;
+    }
+
+    #viewer-col {
+      padding-top: 0;
+    }
+
+    #tools-col {
+      z-index: 10;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 100%;
+      left: 0;
+      right: 0;
+      padding: 0;
+      transition: 0.3s all;
+    }
+
+    .cc_tm {
+
+      background: #fff;
+      padding: 50px;
+      position: absolute;
+      bottom: 0;
+      margin: 0 auto;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      /* box-shadow: rgba(0, 0, 0, 0.062) 0px -20px 25px 5px, rgba(0, 0, 0, 0.04) 0px -15px 10px 4px; */
+      border-radius: 50px 50px 0 0;
+      z-index: 10;
+      max-height: calc(100vh - 55px);
+      overflow-y: auto;
+    }
+
+    #tools-col:after {
+      content: "";
+      background-color: #00000054;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .vstack_step {
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    .vstack_title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 572px;
+      margin: -15px auto 40px;
+    }
+
+    .vstack_step h6 {
+      font-weight: 600;
+    }
+
+    .modal-title {
+      font-weight: 700;
+      font-size: 24px;
+    }
+
+    .col_action {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      padding: 20px 20px 20px 20px;
+      justify-content: space-between;
+      display: flex;
+      align-items: center;
+      box-shadow: rgb(0 0 0 / 13%) 0px -20px 25px -5px, rgba(0, 0, 0, 0.04) 0px -10px 10px -5px;
+      border-radius: 30px 30px 0 0;
+    }
+
+    .col_action .modal-title small {
+      font-size: 18px;
+    }
+
+  }
+
+  @media screen and (min-width: 250px) and (max-width: 650px) {
+
+
+    .stack .btn {
+      font-size: 11px;
+      padding: 7px 15px !important;
+    }
+
+    .header {
+      align-items: self-start !important;
+      justify-content: space-between;
+      flex-direction: column-reverse !important;
+      gap: 15px;
+    }
+
+    .header h2 {
+      font-size: 16px;
+    }
+
+    .col_action .modal-title {
+      display: none;
+      font-size: 16px;
+    }
+
+    .modal-title {
+      font-size: 16px;
+    }
+
+    .col_action .btn {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .col_action {
+      padding: 17px;
+    }
+
+    .vstack_title .modal-title {
+      display: inline-flex;
+      font-size: 18px;
+    }
+
+    .cc_tm {
+      padding: 22px;
+      border-radius: 20px 20px 0 0;
+
+    }
+
+    .cc_tm::-webkit-scrollbar {
+      width: 0;
+    }
+
+    .vstack_title {
+      max-width: 572px;
+      margin: 0px auto 30px;
+    }
+
+  }
+
+
+
+
+
+  @media print {
+    header {
+      display: none;
+    }
+
+    #tools-col.collapse:not(.show) {
+      display: none;
+    }
+
+    .vstack_title,
+    .col_action {
+      display: none;
+    }
+
+    .pdf_iframe {
+      width: 100%;
+      background: none;
+      border-radius: 0;
+      position: relative;
+      overflow: unset;
+      overflow-y: unset;
+      height: unset;
+      box-shadow: none;
+    }
+  }
+</style>
+
+<body>
+
+
+  <main>
+    <header>
+      <div class="">
+        <img src="https://dev.cryptoindia.in/logo.svg" width="180" class="img-fluid" alt="" />
+      </div>
+      <div class="stack" style="margin-left:auto;">
+        <button class="btn btn-dark btn-sm px-4">Download Signed PDF</button>
+      </div>
+    </header>
+
+    <div class="row">
+      <div id="viewer-col" class="col">
+        <div class="pdf_iframe">
+
+          <!-- render/export this for pdf  -->
+          <div class="pdf_viewer ">
+            <style>
+              .pdf_viewer {
+                font-family: "Plus Jakarta Sans", sans-serif;
+                margin: 0;
+                padding: 0;
+                line-height: 1.6;
+                background: #fff;
+                font-size: 13px;
+              }
+
+              .header,
+              .footer {
+                position: relative;
+                left: 0;
+                right: 0;
+                padding: 20px 0;
+                max-width: 800px;
+                margin: 0 auto;
+                /* z-index: 1; */
+              }
+
+              .header {
+                top: 0;
+                border-bottom: 1px solid #b4b4b4;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              }
+
+              .header small {
+                font-size: 12px;
+                line-height: 1.2;
+                margin: 0 0 5px;
+                display: block;
+
+              }
+
+              .header h2 {
+                font-size: 22px;
+                line-height: 1;
+                margin: 0;
+              }
+
+              .footer {
+                bottom: 0;
+                border-top: 1px solid #b4b4b4;
+                text-align: center;
+                font-size: 12px;
+              }
+
+              .footer p {
+                margin: 0;
+              }
+
+              .content {
+                max-width: 800px;
+                margin: 30px auto 50px auto;
+                padding: 10px 0;
+                position: relative;
+              }
+
+              .letterhead small {
+                position: absolute;
+                top: -7px;
+                left: 0;
+              }
+
+              .letterhead {
+                text-align: center;
+                margin-bottom: 20px;
+              }
+
+              .letterhead p {
+                font-size: 11px;
+              }
+
+              .letterhead p strong {
+                font-size: 20px;
+
+              }
+
+              .sender,
+              .receiver,
+              .date,
+              .time {
+                margin-bottom: 20px;
+              }
+
+
+              .signature {
+                margin-top: 50px;
+              }
+
+              .d-flex {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              }
+
+              .sn_img {
+                text-align: center;
+              }
+
+              .sn_img img {
+                margin: 0 auto 4px;
+                display: block;
+              }
+
+              .sn_img small {
+                font-size: 10px;
+              }
+
+
+              /* Print settings */
+              @media print {
+
+                /* @page  {
+        padding-top: 120px;  
+      }   */
+
+                .content {
+                  max-width: 800px;
+                  margin: 10px auto 10px auto;
+                  /* space for header & footer */
+                  padding: 10px 0;
+                }
+
+                /* Force page breaks for demo */
+                .page-break {
+                  page-break-before: always;
+                  margin-bottom: 0px;
+                }
+
+                .header,
+                .footer {
+                  position: relative;
+                }
+              }
+            </style>
+
+            <!-- Fixed Header -->
+            <div class="header">
+              <h2> Entity Name Here</h2>
+              <div class="logo">
+                <img src="https://dev.cryptoindia.in/logo.svg" width="110" class="img-fluid" alt="" />
+              </div>
+            </div>
+
+            <!-- Letter Content -->
+            <div class="content">
+
+              <div class="letterhead">
+                <small> DOC ID : #54654321654 </small>
+                <p><strong> Sanctions Questionnaire </strong>
+                </p>
+              </div>
+
+              <div class="date">
+                <p>Date: _ _ _ _ _ _ _ _ </p>
+              </div>
+
+              <p> Legal Entity Name: <b>---------- </b> </p>
+              <p> CIN/ Registration Number: <b>---------- </b> </p>
+              <p> Registered Address :<b>---------- </b> </p>
+              <p>Company's Operations Address: <b>---------- </b> </p>
+              <br />
+              <p> Please tick whichever region is applicable:
+              </p>
+
+              <div class="table-responsive">
+                <table class="table table-bordered "
+                  style=" text-align: start; border-collapse: collapse; width: 100%;">
+                  <tr style="vertical-align: middle;">
+                    <td>
+                      <p style=" max-width: 450px; padding: 10px">Does your Company or any Director directly or
+                        indirectly engage in or plan to engage in activity with
+                        or in any of the following Sanctioned Countries /
+                        Regions?</p>
+                    </td>
+                    <td>
+                      <div>
+                        <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; " for="css">
+                          <input type="radio" id="css" name="fav_language" value="CSS">
+                          Yes </label>
+
+                        <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; " for="css">
+                          <input type="radio" id="css" name="fav_language" value="CSS">
+                          No
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 10px 10px 10px 10px;">
+                      <p> <b>Grey Listed Countries</b> </p>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Albania</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Barbados</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Burkina Faso</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Cameroon</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Cayman Islands</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Democratic Republic of the Congo</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Gibraltar</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Haiti</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Jamaica</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Jordan</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Mali</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Mozambique</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Nigeria</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Panama</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Philippines</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Senegal</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> South Africa</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> South Sudan</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Syria</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Tanzania</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Turkey</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Uganda</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> United Arab Emirates (UAE)</label>
+                      <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                          type="checkbox"> Yemen</label>
+                    </td>
+                    <td style="vertical-align: top; ">
+                      <div class="" style="padding: 0 10px 10px 10px; ">
+                        <p> <b>Blacklisted Countries</b> </p>
+                        <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                            type="checkbox"> North Korea</label>
+                        <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                            type="checkbox"> Iran</label>
+                        <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input
+                            type="checkbox"> No One from both list</label>
+                      </div>
+                      <hr />
+                      <div class="" style="padding: 10px; ">
+                        <p> Entity Name: <b>---------- </b> </p>
+                        <p> Mobile Number:: <b>---------- </b> </p>
+                        <p> Date :<b>---------- </b> </p>
+                      </div>
+                      <hr />
+                      <div class="" style="padding: 10px; ">
+                        <p> Company Stamp & Signature of Authorized Signatory </p>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+
+
+              <br />
+              <p> Please sign or upload photo
+              </p>
+
+              <div class="table-responsive">
+                <table class="table table-bordered "
+                  style=" text-align: center; border-collapse: collapse; width: 100%;">
+                  <thead style="font-size: 12px; text-align: center;">
+                    <tr>
+                      <th style="padding: 10px;"> NAME </th>
+                      <th style="padding: 10px;"> Mobile Number </th>
+                      <th style="padding: 10px;"> Declaration Date </th>
+                      <th style="padding: 10px;"> Signature </th>
+                      <th style="padding: 10px;"> Photo </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="padding: 10px;"> -- </td>
+                      <td style="padding: 10px;"> -- </td>
+                      <td style="padding: 10px;"> -- </td>
+                      <td style="padding: 10px 0;">
+                        <div class="sn_img ">
+                          <image src="https://i.pinimg.com/736x/04/c6/83/04c683fbd9f24c509df57b559bdc0e91.jpg"
+                            width="100" />
+                          <small> dd/mm/yyyy, 00:00 PM <br /> Sign ID: #524654 </small>
+                        </div>
+                      </td>
+                      <td style="padding: 10px 0;">
+                        <div class="sn_img ">
+                          <image
+                            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
+                            width="80" />
+                          <small> dd/mm/yyyy, 00:00 PM <br /> DOC ID: #5451321 </small>
+                        </div>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+
+              <br />
+
+
+
+
+            </div>
+
+            <!-- Fixed Footer -->
+            <div class="footer">
+              <p> DOC ID: #56465652165465 </p>
+              <p> support@cryptoindia.in | www.cryptoindia.in </p>
+            </div>
+
+          </div>
+          <!-- render/export this for pdf end  -->
+
+        </div>
+      </div>
+
+
+      <div id="tools-col" class="col vstack collapse ">
+
+        <div class="cc_tm">
+
+
+          <div class="vstack_title">
+            <h5 class="modal-title"> Upload Signature or photo </h5>
+            <span data-bs-toggle="collapse" data-bs-target="#tools-col">
+              <svg width="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z">
+                </path>
+              </svg>
+            </span>
+          </div>
+
+          <!-- step 1  -->
+          <div class="vstack vstack_step pb-5">
+            <div class="vstack_inner">
+              <h6> <span>1</span> Signature (Upload/Capture) </h6>
+              <div class="sig-wrap">
+                <canvas id="signature-canvas-0" width="342" class="sign_canvas" height="162"></canvas>
+              </div>
+              <label class="btn btn-dark btn-sm mt-2 mb-0 d-flex justify-content-center gap-2">
+                <svg width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19ZM13 9V16H11V9H6L12 3L18 9H13Z">
+                  </path>
+                </svg> Upload Signature
+                <input type="file" id="file" accept="image/*" onchange="uploadToCanvas(event, 0, 'signature')" hidden>
+              </label>
+              <div class="registration__info my-1"><span></span> OR <span></span></div>
+              <button type="button" class="btn btn btn-outline-dark btn-sm  mb-0  d-flex justify-content-center gap-2"
+                data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="openCamera(0, 'signature')">
+                <svg width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M20.7134 8.12811L20.4668 8.69379C20.2864 9.10792 19.7136 9.10792 19.5331 8.69379L19.2866 8.12811C18.8471 7.11947 18.0555 6.31641 17.0677 5.87708L16.308 5.53922C15.8973 5.35653 15.8973 4.75881 16.308 4.57612L17.0252 4.25714C18.0384 3.80651 18.8442 2.97373 19.2761 1.93083L19.5293 1.31953C19.7058 0.893489 20.2942 0.893489 20.4706 1.31953L20.7238 1.93083C21.1558 2.97373 21.9616 3.80651 22.9748 4.25714L23.6919 4.57612C24.1027 4.75881 24.1027 5.35653 23.6919 5.53922L22.9323 5.87708C21.9445 6.31641 21.1529 7.11947 20.7134 8.12811ZM9 3H14V5H9.82843L7.82843 7H4V19H20V11H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V6C2 5.44772 2.44772 5 3 5H7L9 3ZM12 18C8.96243 18 6.5 15.5376 6.5 12.5C6.5 9.46243 8.96243 7 12 7C15.0376 7 17.5 9.46243 17.5 12.5C17.5 15.5376 15.0376 18 12 18ZM12 16C13.933 16 15.5 14.433 15.5 12.5C15.5 10.567 13.933 9 12 9C10.067 9 8.5 10.567 8.5 12.5C8.5 14.433 10.067 16 12 16Z">
+                  </path>
+                </svg>
+                Capture Signature
+              </button>
+            </div>
+          </div>
+
+          <!-- step 2 -->
+          <div class="vstack vstack_step border-0">
+            <div class="vstack_inner">
+              <h6 class=""> <span>2</span> Signature (Upload/Capture) </h6>
+              <div class="sig-wrap">
+                <div width="342" class="sign_canvas click_canvas" height="162">
+                  <div class="click_canvas_inner">
+                    <svg width="40" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path
+                        d="M20.7134 8.12811L20.4668 8.69379C20.2864 9.10792 19.7136 9.10792 19.5331 8.69379L19.2866 8.12811C18.8471 7.11947 18.0555 6.31641 17.0677 5.87708L16.308 5.53922C15.8973 5.35653 15.8973 4.75881 16.308 4.57612L17.0252 4.25714C18.0384 3.80651 18.8442 2.97373 19.2761 1.93083L19.5293 1.31953C19.7058 0.893489 20.2942 0.893489 20.4706 1.31953L20.7238 1.93083C21.1558 2.97373 21.9616 3.80651 22.9748 4.25714L23.6919 4.57612C24.1027 4.75881 24.1027 5.35653 23.6919 5.53922L22.9323 5.87708C21.9445 6.31641 21.1529 7.11947 20.7134 8.12811ZM9 3H14V5H9.82843L7.82843 7H4V19H20V11H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V6C2 5.44772 2.44772 5 3 5H7L9 3ZM12 18C8.96243 18 6.5 15.5376 6.5 12.5C6.5 9.46243 8.96243 7 12 7C15.0376 7 17.5 9.46243 17.5 12.5C17.5 15.5376 15.0376 18 12 18ZM12 16C13.933 16 15.5 14.433 15.5 12.5C15.5 10.567 13.933 9 12 9C10.067 9 8.5 10.567 8.5 12.5C8.5 14.433 10.067 16 12 16Z">
+                      </path>
+                    </svg>
+                    Capture Photo
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-lg btn-primary mt-4 "> Signature </button>
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+
+    </div>
+
+
+    <div class="col_action">
+      <h5 class="modal-title"> <small>Upload Signature or photo</small> </h5>
+      <button class="btn btn-primary px-4" type="button" data-bs-toggle="collapse" data-bs-target="#tools-col"
+        aria-expanded="false" aria-controls="tools-col">
+        Sign on document
+        <svg width="18" class="ms-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M1.99974 13.0001L1.9996 11.0002L18.1715 11.0002L14.2218 7.05044L15.636 5.63623L22 12.0002L15.636 18.3642L14.2218 16.9499L18.1716 13.0002L1.99974 13.0001Z">
+          </path>
+        </svg>
+      </button>
+    </div>
+
+
+    <!-- signature modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"> Capture Signature </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body modal_form">
+            <div class="row">
+              <!-- step 1 -->
+              <div class="col-lg-12 d-none">
+                <div class="dov_card text-center vc_card_upl">
+                  <div class="lc_img">
+                    <img src="https://dev.cryptoindia.in/assets/images/liveness_mockup.svg" class="img-fluid" alt="" />
+                  </div>
+                  <div class="tip_ul">
+                    <h6>Tips</h6>
+                    <ul>
+                      <li>
+                        <i class="ri-checkbox-circle-fill text-success">(✓) </i> Find a well lit place
+                      </li>
+                      <li>
+                        <i class="ri-checkbox-circle-fill text-success">(✓) </i> Please sign on white papaer only
+                      </li>
+                      <li>
+                        <i class="ri-checkbox-circle-fill text-success">(✓) </i> Please use black or blue pen for
+                        signature
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="form-group mb-0 mt-2">
+                    <button type="button" class="w-100 btn-block btn btn-lg btn-warning  mt-2"
+                      onclick="openCamera(0, 'signature')">
+                      Start Capturing
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- step 2 -->
+              <div class="col-lg-12">
+                <div class="dov_card text-center vc_card_upl">
+                  <div class="lc_img">
+                    <video id="signature-video-0" class="hidden round-sm" width="100%" height="100%" autoplay></video>
+                  </div>
+
+                  <div class="form-group mb-0 mt-2">
+                    <button type="button" class="w-100 btn-block btn btn-lg btn-warning  mt-2" data-bs-dismiss="modal"
+                      aria-label="Close" onclick="captureImage(0, 'signature')">
+                      Click Signature
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- step 2end -->
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </main>
+
+
+
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+<script>
+  function uploadToCanvas(event, index, type) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result;
+      const canvas = document.getElementById(`${type}-canvas-${index}`);
+      const ctx = canvas.getContext("2d");
+      const img = new Image();
+      img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      img.src = dataUrl;
+
+      document.getElementById(`${type}-data-${index}`).value = dataUrl;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function openCamera(index, type) {
+    const video = document.getElementById(`${type}-video-${index}`);
+    video.classList.remove("hidden");
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(() => alert("Camera not available."));
+  }
+
+  function captureImage(index, type) {
+    const video = document.getElementById(`${type}-video-${index}`);
+    const canvas = document.getElementById(`${type}-canvas-${index}`);
+    const ctx = canvas.getContext("2d");
+
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const imageData = canvas.toDataURL("image/png");
+    document.getElementById(`${type}-data-${index}`).value = imageData;
+
+    video.srcObject.getTracks().forEach(track => track.stop());
+    video.classList.add("hidden");
+
+    if (type === "photo") {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            document.getElementById(`latitude-${index}`).value = position.coords.latitude;
+            document.getElementById(`longitude-${index}`).value = position.coords.longitude;
+          },
+          () => {
+            alert("Location permission denied.");
+          }
+        );
+      } else {
+        alert("Geolocation not supported.");
+      }
+    }
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    const directorData = [{ "_id": "68a8301a78be4550aeaa8bf9", "userId": "68a8177549dceb7fc6d1b0fc", "serviceSessionId": "d0311870-1052-4862-8e75-f0a51b5e290d", "serviceName": "add-director", "serviceVerified": true, "directorId": "68a81b770a4c6b13398a006b", "name": "AJAY KUMAR JANGID", "email_id": "ajay@cryptoindia.in", "phone": "8560977371", "panNumber": "CJPPJ1623Q", "maskedAdhaar": "XXXXXXXX6870", "mainTrader": true, "timestamp": "2025-08-22T08:53:46.603Z", "isDeleted": false, "isLatest": true, "createdAt": "2025-08-22T08:53:46.825Z", "updatedAt": "2025-08-22T13:36:07.339Z", "__v": 0, "sharePercentage": "30" }, { "_id": "68a86cad43003c9be15b3e4a", "userId": "68a8177549dceb7fc6d1b0fc", "serviceSessionId": "2b62ba89-3dde-4ac6-a788-12f84d0155e7", "serviceName": "add-director", "serviceVerified": true, "directorId": "68a86b2543003c9be15b3d2d", "name": "PRADEEP KUMAR YADAV", "email_id": "sdfgsdgsdfg@gmail.com", "phone": "8560988774", "panNumber": "ALSPY2419A", "maskedAdhaar": "XXXXXXXX6309", "mainTrader": false, "timestamp": "2025-08-22T13:12:13.611Z", "isDeleted": false, "isLatest": true, "createdAt": "2025-08-22T13:12:13.829Z", "updatedAt": "2025-08-22T13:36:07.100Z", "__v": 0, "sharePercentage": "70" }];
+    const paramId = "68a81b770a4c6b13398a006b";
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGE4MTc3NTQ5ZGNlYjdmYzZkMWIwZmMiLCJkaXJlY3RvcklkIjoiNjhhODFiNzcwYTRjNmIxMzM5OGEwMDZiIiwiZW1haWwiOiJhamF5QGNyeXB0b2luZGlhLmluIiwibmFtZSI6IkFKQVkgS1VNQVIgSkFOR0lEIiwiZG9jVHlwZSI6IkxvYSIsImlhdCI6MTc1NTg3MDMwMywiZXhwIjoxNzU1OTU2NzAzfQ.gdpIjUGt0KKfuDxOunLQ2x6H88TfAmX8g98mxReZ3QQ";
+    const userId = "68a8177549dceb7fc6d1b0fc";
+
+    const payloads = [];
+
+    directorData.forEach((director, index) => {
+      if (director.directorId === paramId) {
+        const signature = document.getElementById(`signature-data-${index}`).value;
+        const photo = document.getElementById(`photo-data-${index}`).value;
+        const latitude = document.getElementById(`latitude-${index}`).value;
+        const longitude = document.getElementById(`longitude-${index}`).value;
+
+        if (!signature || !photo) {
+          alert("Please capture or upload both signature and photo before submitting.");
+          return;
+        }
+
+        payloads.push({
+          directorID: director._id,
+          name: director.name,
+          email: director.email_id,
+          image: signature,
+          userPhoto: photo,
+          panNumber: director.panNumber,
+          docname: "Loa",
+          userId,
+          latitude,
+          longitude
+        });
+      }
+    });
+
+    if (!payloads.length) return;
+
+    Promise.all(payloads.map(data =>
+      fetch(`/v1/user/entity/submitSignature/${token}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+    )).then(results => {
+      const allSuccess = results.every(r => r.success);
+      alert(allSuccess ? "Submitted successfully." : "Some submissions failed.");
+    }).catch(() => alert("Submission error."));
+  }
+</script>
+
+</html>
