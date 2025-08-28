@@ -742,6 +742,43 @@ app.get('/sanctions-submit/link-send-email',(req,res)=>{
 });
 
 })
+app.get('/sanctions-pdf/link-send-email',(req,res)=>{
+  res.render("sanctionsNew_pdf", {
+  entityName: "Entity Name Here",
+  RegistionNumber:'5436435743755467345743',
+  companyName: "ABC Pvt Ltd",
+  resolutionDate: "25-08-2025",
+  resolutionTime: "11:00 AM",
+  address: "New Delhi, India",
+  CompanyOprationaddress: "New Delhi, India",
+  paramId:"6880a1b5986ee32d03d1a14a",
+  docId :"6880a1b5-986ee32d0-3d1a14a-458fjsdt-r34oi5u6-347hgf-trdhytr",
+  token :"6880a1b5986ee32d03d1a14a",
+  userId :"6880a1b5986ee32d03d1a14a",
+  date:"21-09-25",
+  selectedValue:"no",
+  blackList:[ "North Korea" , "Iran" , "No One from both list" ],
+  greyList:[ "Democratic Republic of the Congo" , "Gibraltar" , "Haiti" , "Jamaica"
+                  , "Jordan" , "Mali" , "Mozambique" , "Nigeria" , "Panama" , "Philippines" , "Senegal" , "South Africa"
+                  , "South Sudan" , "Syria" , "Tanzania" , "Turkey" , "Uganda" , "United Arab Emirates (UAE)" , "Yemen"
+                  ],
+  mainTrader: [
+    {
+      directorId: "6880a1b5986ee32d03d1a14a",
+      _id: "6880a1b5986ee32d03d1a14a",
+      name: "AJAY KUMAR JANGID",
+      panNumber: "CJPPJ1623Q",
+      phone: "8560977371",
+      email_id: "ajay@cryptoindia.in",
+      signature: "https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg", 
+      signedAt: "25/08/2025, 11:30 AM", 
+      photo: "https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg", 
+      photoAt: "25/08/2025, 11:35 AM" }
+  ],
+
+});
+
+})
 
 
 

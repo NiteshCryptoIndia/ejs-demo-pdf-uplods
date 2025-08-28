@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Sanction Questionnaire </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <style>
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      font-size: 13px;
+    }
+
+    .header,
+    .footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      padding: 20px 0;
+      max-width: 800px;
+      margin: 0 auto;
+      z-index: 1;
+    }
+
+    .header {
+      top: 0;
+      border-bottom: 1px solid #b4b4b4;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header small {
+      font-size: 12px;
+      line-height: 1.2;
+      margin: 0 0 5px;
+      display: block;
+
+    }
+
+    .header h2 {
+      font-size: 22px;
+      line-height: 1;
+      margin: 0;
+    }
+
+    .footer {
+      bottom: 0;
+      border-top: 1px solid #b4b4b4;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .footer p {
+      margin: 0;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 100px auto 50px auto;
+      padding: 10px 0;
+      position: relative;
+    }
+
+    .letterhead small {
+      position: absolute;
+      top: -7px;
+      left: 0;
+    }
+
+    .letterhead {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .letterhead p {
+      font-size: 11px;
+    }
+
+    .letterhead p strong {
+      font-size: 20px;
+
+    }
+
+    .sender,
+    .receiver,
+    .date,
+    .time {
+      margin-bottom: 20px;
+    }
+
+
+    .signature {
+      margin-top: 50px;
+    }
+
+    .d-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sn_img {
+      text-align: center;
+    }
+
+    .sn_img img {
+      margin: 0 auto 4px;
+      display: block;
+    }
+
+    .sn_img small {
+      font-size: 10px;
+    }
+
+
+    .columns {
+      display: flex;
+      gap: 40px;
+    }
+
+    .column {
+      flex: 1;
+    }
+
+    label {
+      display: block;
+      margin: 4px 0;
+    }
+
+
+
+
+    /* Print settings */
+    @media print {
+
+      /* @page  {
+        padding-top: 120px;  
+      }   */
+
+
+      .content {
+        max-width: 800px;
+        margin: 10px auto 10px auto;
+        /* space for header & footer */
+        padding: 10px 0;
+      }
+
+      /* Force page breaks for demo */
+      .page-break {
+        page-break-before: always;
+        margin-bottom: 0px;
+      }
+
+      .header,
+      .footer {
+        position: relative;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <!-- Fixed Header -->
+  <div class="header">
+    <h2> Entity Name Here</h2>
+    <div class="logo">
+      <img src="https://dev.cryptoindia.in/logo.svg" width="110" class="img-fluid" alt="" />
+    </div>
+  </div>
+  <!-- Letter Content -->
+  <div class="content">
+
+    <div class="letterhead">
+      <small> DOC ID : <%- docId %> </small>
+      <p><strong> Sanctions Questionnaire </strong>
+      </p>
+    </div>
+
+    <div class="date">
+      <p>Date: <%- date %></p>
+    </div>
+
+    <p> Legal Entity Name: <b><%- entityName %> </b> </p>
+    <p> CIN/ Registration Number: <b><%- RegistionNumber %> </b> </p>
+    <p> Registered Address :<b><%- address %>  </b> </p>
+    <p>Company's Operations Address: <b><%- CompanyOprationaddress %>  </b> </p>
+    <br />
+    <p> Please tick whichever region is applicable:
+    </p>
+  
+      <div class="table-responsive">
+        <table border="1" class="table table-bordered "
+          style=" text-align: start; border-collapse: collapse; width: 100%;">
+          <tr style="vertical-align: middle;">
+            <td>
+              <p style=" max-width: 450px; padding: 10px">Does your Company or any Director directly or
+                indirectly engage in or plan to engage in activity with
+                or in any of the following Sanctioned Countries /
+                Regions?</p>
+            </td>
+            <td>
+              <div>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0;" for="Sanctioned1">
+                 
+                 <input 
+  type="radio" 
+  id="Sanctioned1" 
+  name="sanctioned" 
+  value="yes" 
+  <%- selectedValue = 'yes' ? 'checked' : '' %>> 
+
+
+
+                  Yes
+                </label>
+
+                <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0;" for="Sanctioned2">
+                  <input 
+  type="radio" 
+  id="Sanctioned2" 
+  name="sanctioned" 
+  value="no" 
+  <%- selectedValue = 'no' ? 'checked' : '' %>> No
+                </label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 10px 10px 10px;">
+              <p> <b>Grey Listed Countries</b> </p>
+              <ul>
+                <% greyList.forEach(c=> { %>
+
+                  <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox"
+                      name="greyList" value="<%= c %>" checked>
+                    <%= c %>
+                  </label>
+                  <% }) %>
+              </ul>
+            </td>
+            <td style="vertical-align: top; ">
+              <div class="" style="padding: 0 10px 10px 10px; ">
+                <p> <b>Blacklisted Countries</b> </p>
+                <% blackList.forEach(c=> { %>
+
+                  <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; ">
+                    <input type="checkbox"
+                      name="blackList" value="<%= c %>" checked>
+                    <%= c %>
+                  </label>
+                  <% }) %>
+
+              </div>
+
+              <hr />
+              <div class="" style="padding: 10px; ">
+                <p> Company Stamp & Signature of Authorized Signatory </p>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+
+      <br />
+
+
+
+      <div class="table-responsive">
+        <table class="table table-bordered" style="text-align:center; border-collapse: collapse; width:100%;">
+          <thead style="font-size: 12px;" class="table-dark">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Declaration Date </th>
+              <th>Signature</th>
+              <th>Photo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% mainTrader.forEach((director, index)=> { %>
+              <tr>
+                <td>
+                  <%= director.name %>
+                </td>
+                <td>
+                  <%= director.email_id %>
+                </td>
+                <td>
+                  <%= director.panNumber %>
+                </td>
+
+                <!-- Signature Column -->
+                <td style="padding:10px;">
+                          <div class="sn_img">
+                            <% if (director.signature) { %>
+                              <img src="<%= director.signature %>" width="100" />
+                              <small>
+                                <%= director.signedAt %>
+                              </small>
+                              <% } else { %>
+                                <span style="color:gray;">No Signature</span>
+                                <% } %>
+                          </div>
+                        </td>
+
+                <!-- Photo Column -->
+                <td style="padding:10px;">
+                          <div class="sn_img">
+                            <% if (director.photo) { %>
+                              <img src="<%= director.photo %>" width="100" />
+                              <small>
+                                <%= director.photoAt %>
+                              </small>
+                              <% } else { %>
+                                <span style="color:gray;">No Photo</span>
+                                <% } %>
+                          </div>
+                        </td>
+              </tr>
+              <% }) %>
+          </tbody>
+        </table>
+
+        <!-- <small>dd/mm/yyyy, 00:00 PM <br /> DOC ID: #5451321</small> -->
+        <!-- <button type="submit" class="btn btn-dark mt-3">Submit</button> -->
+      </div>
+ 
+
+    <br />
+
+
+
+
+  </div>
+
+  <!-- Fixed Footer -->
+  <div class="footer">
+    <p> DOC ID: <%- docId %> </p>
+    <p> support@cryptoindia.in | www.cryptoindia.in </p>
+  </div>
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+</html>
