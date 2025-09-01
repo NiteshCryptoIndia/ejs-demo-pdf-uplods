@@ -165,9 +165,8 @@
       }
     }
 
-
-
-        /* loading css */
+    
+   /* loading css */
 
 /* #loading_main{
   display: block;
@@ -216,20 +215,46 @@
         }
       } 
       /* loading css end */
+
+
+      /* 404 page found css start */
+      
+.page_404{ padding:40px 0; background:#fff; font-family: 'Arvo', serif;
+}
+
+.page_404  img{ width:100%;}
+
+.four_zero_four_bg{
+ 
+ background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+    height: 400px;
+    background-position: center;
+ }
+ 
+ 
+ .four_zero_four_bg h1{
+ font-size:80px;
+ }
+ 
+  .four_zero_four_bg h3{
+			 font-size:80px;
+			 }
+			 
+			 .link_404{			 
+	color: #fff!important;
+    padding: 10px 20px;
+    background: #39ac31;
+    margin: 20px 0;
+    display: inline-block;}
+	.contant_box_404{ margin-top:-50px;}
+      /* 404 page found css end */
   </style>
 </head>
 
 <body>
+
   <main>
-    <header>
-      <div class="">
-        <img src="https://dev.cryptoindia.in/logo.svg" width="180" class="img-fluid" alt="" />
-      </div>
-      <div class="stack" style="margin-left:auto;">
-        <button class="btn btn-dark btn-sm px-4">Download Signed PDF</button>
-      </div>
-    </header>
-     <div
+    <div
       style="width: 100%; height: 100%; position: fixed; align-items: center; justify-self: center; background: #fff; z-index: 999;" id="loading_main">
       <div class="loading-wave" style="width: 100%; height: 100%; align-items: center;">
         <div class="loading-bar"></div>
@@ -238,147 +263,108 @@
         <div class="loading-bar"></div>
       </div> 
     </div>
-<div id="viewer-col" class="col">
-<div class="pdf_viewer ">
-   <style>
-              .pdf_viewer {
-                font-family: "Plus Jakarta Sans", sans-serif;
-                margin: 0;
-                padding: 0;
-                line-height: 1.6;
-                background: #fff;
-                font-size: 13px;
-              }
 
-              .header,
-              .footer {
-                position: relative;
-                left: 0;
-                right: 0;
-                padding: 20px 0;
-                max-width: 800px;
-                margin: 0 auto;
-                /* z-index: 1; */
-              }
+ <!-- PDF Render Area -->
+<% if (tokenValid) { %>
+ <div id="viewer-col" class="col">
+        <div class="pdf_viewer">
+          <style>
+            .pdf_viewer {
+              font-family: "Plus Jakarta Sans", sans-serif;
+              margin: 0;
+              padding: 0;
+              line-height: 1.6;
+              background: #fff;
+              font-size: 13px;
+            }
 
-              .header {
-                top: 0;
-                border-bottom: 1px solid #b4b4b4;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-              }
+            .header,
+            .footer {
+              position: relative;
+              left: 0;
+              right: 0;
+              padding: 20px 0;
+              max-width: 800px;
+              margin: 0 auto;
+            }
 
-              .header small {
-                font-size: 12px;
-                line-height: 1.2;
-                margin: 0 0 5px;
-                display: block;
+            .header {
+              border-bottom: 1px solid #b4b4b4;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            }
 
-              }
+            .header small {
+              font-size: 12px;
+              margin: 0 0 5px;
+              display: block;
+            }
 
-              .header h2 {
-                font-size: 22px;
-                line-height: 1;
-                margin: 0;
-              }
+            .header h2 {
+              font-size: 22px;
+              margin: 0;
+            }
 
-              .footer {
-                bottom: 0;
-                border-top: 1px solid #b4b4b4;
-                text-align: center;
-                font-size: 12px;
-              }
+            .footer {
+              border-top: 1px solid #b4b4b4;
+              text-align: center;
+              font-size: 12px;
+            }
 
-              .footer p {
-                margin: 0;
-              }
+            .footer p {
+              margin: 0;
+            }
 
+            .content {
+              max-width: 800px;
+              margin: 50px auto;
+              padding: 10px 0;
+            }
+
+            .letterhead {
+              text-align: center;
+              margin-bottom: 20px;
+            }
+
+            .letterhead small {
+              position: absolute;
+              top: -7px;
+              left: 0;
+            }
+
+            .letterhead p {
+              font-size: 11px;
+            }
+
+            .letterhead p strong {
+              font-size: 20px;
+            }
+
+            .sn_img {
+              text-align: center;
+            }
+
+            .sn_img img {
+              margin: 0 auto 4px;
+              display: block;
+            }
+
+            .sn_img small {
+              font-size: 10px;
+            }
+
+            @media print {
               .content {
                 max-width: 800px;
-                margin: 30px auto 50px auto;
-                padding: 10px 0;
-                position: relative;
+                margin: 10px auto;
               }
-
-              .letterhead small {
-                position: absolute;
-                top: -7px;
-                left: 0;
+              .page-break {
+                page-break-before: always;
+                margin-bottom: 0;
               }
-
-              .letterhead {
-                text-align: center;
-                margin-bottom: 20px;
-              }
-
-              .letterhead p {
-                font-size: 11px;
-              }
-
-              .letterhead p strong {
-                font-size: 20px;
-
-              }
-
-              .sender,
-              .receiver,
-              .date,
-              .time {
-                margin-bottom: 20px;
-              }
-
-
-              .signature {
-                margin-top: 50px;
-              }
-
-              .d-flex {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-              }
-
-              .sn_img {
-                text-align: center;
-              }
-
-              .sn_img img {
-                margin: 0 auto 4px;
-                display: block;
-              }
-
-              .sn_img small {
-                font-size: 10px;
-              }
-
-
-              /* Print settings */
-              @media print {
-
-                /* @page  {
-        padding-top: 120px;  
-      }   */
-
-                .content {
-                  max-width: 800px;
-                  margin: 10px auto 10px auto;
-                  /* space for header & footer */
-                  padding: 10px 0;
-                }
-
-                /* Force page breaks for demo */
-                .page-break {
-                  page-break-before: always;
-                  margin-bottom: 0px;
-                }
-
-                .header,
-                .footer {
-                  position: relative;
-                }
-              }
-            </style>
+            }
+          </style>
   <!-- Fixed Header -->
   <div class="header">
     <h2> Entity Name Here</h2>
@@ -390,7 +376,7 @@
   <div class="content">
 
     <div class="letterhead">
-      <small> DOC ID : #54654321654 </small>
+      <small> DOC ID : <%- docId %> </small>
       <p><strong> Sanctions Questionnaire </strong>
       </p>
     </div>
@@ -437,7 +423,7 @@
               <ul>
                 <% const graylistCountries=[ "Democratic Republic of the Congo" , "Gibraltar" , "Haiti" , "Jamaica"
                   , "Jordan" , "Mali" , "Mozambique" , "Nigeria" , "Panama" , "Philippines" , "Senegal" , "South Africa"
-                  , "South Sudan" , "Syria" , "Tanzania" , "Turkey" , "Uganda" , "United Arab Emirates (UAE)" , "Yemen","None"
+                  , "South Sudan" , "Syria" , "Tanzania" , "Turkey" , "Uganda" , "United Arab Emirates (UAE)" , "Yemen"
                   ].forEach(c=> { %>
 
                   <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox"
@@ -450,7 +436,7 @@
             <td style="vertical-align: top; ">
               <div class="" style="padding: 0 10px 10px 10px; ">
                 <p> <b>Blacklisted Countries</b> </p>
-                <% const blacklistCountries=[ "North Korea" , "Iran" , "None" ].forEach(c=> { %>
+                <% const blacklistCountries=[ "North Korea" , "Iran" , "No One from both list" ].forEach(c=> { %>
 
                   <label style="display: flex; align-items: center; gap: 8px; padding: 4px 0; "><input type="checkbox"
                       name="blackList" value="<%= c %>">
@@ -492,7 +478,7 @@
             </tr>
           </thead>
           <tbody>
-            <% directors.forEach((director, index)=> { %>
+            <% mainTrader.forEach((director, index)=> { %>
               <tr>
                 <td>
                   <%= director.name %>
@@ -506,7 +492,7 @@
 
                 <!-- Signature Column -->
                 <td>
-                  <% if (paramId===director._id) { %>
+                  <% if (paramId===director.directorId) { %>
                     <div class="sn_img">
                       <div id="signature-preview-box-<%= index %>"
                         style="width:200px; height:120px; border:1px solid #ccc; display:flex; align-items:center; justify-content:center; margin-bottom:10px;">
@@ -550,7 +536,7 @@
 
                 <!-- Photo Column -->
                 <td>
-                  <% if (paramId===director._id) { %>
+                  <% if (paramId===director.directorId) { %>
                     <div class="sn_img">
                       <div id="photo-preview-box-<%= index %>"
                         style="width:200px; height:120px; border:1px solid #ccc; display:flex; align-items:center; justify-content:center; margin-bottom:10px;">
@@ -613,22 +599,48 @@
     <p> DOC ID: #56465652165465 </p>
     <p> support@cryptoindia.in | www.cryptoindia.in </p>
   </div>
-  </div>
-  </div>
+        </div>
+        </div>
+         <% } else { %>
+         <section class="page_404">
+	<div class="container">
+		<div class="row">	
+		<div class="col-sm-12 ">
+		<div class="col-sm-10 col-sm-offset-1  text-center">
+		<div class="four_zero_four_bg">
+			<h1 class="text-center ">404</h1>
+		
+		
+		</div>
+		
+<div class="contant_box_404">
+    <h3 class="h2">
+        Your session token has expired.
+    </h3>
+
+    <p>the page you are looking for not avaible!</p>
+
+    <a href="https://cryptoindia.in/" class="link_404">Go to Home</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
 
 
-</main>
+<% } %>
 
+  </main>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   <script>
-  document.getElementById("loading_main").style.display = "flex";
+<script>
+           document.getElementById("loading_main").style.display = "flex";
   setTimeout(() => {
     document.getElementById("loading_main").style.display = "none";
-  }, 3000); // simulate 3s API delay
-     
+  }, 1000); // simulate 3s API delay
   /* ================= Signature Functions ================= */
   function previewSignatureUpload(event, index) {
     const file = event.target.files[0];
@@ -652,18 +664,28 @@
     }
   });
 
+   function showErrorAndCloseModal(title, message, modalEl) {
+  Swal.fire({
+    icon: "error",
+    title: title || "Error!",
+    text: message,
+    confirmButtonText: "OK",
+    confirmButtonColor: "#d33"
+  }).then(() => {
+    bootstrap.Modal.getInstance(modalEl).hide();
+  });
+}
+
   function requestLocationForSignature(index, modalEl) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         () => openSignatureCamera(index),
         () => {
-          alert(" Location access denied! Cannot capture signature.");
-          bootstrap.Modal.getInstance(modalEl).hide();
+          showErrorAndCloseModal("Location Access Denied","Cannot capture signature.",modalEl)
         }
       );
     } else {
-      alert("Geolocation not supported");
-      bootstrap.Modal.getInstance(modalEl).hide();
+      showErrorAndCloseModal("Geolocation not supported","Cannot capture image.",modalEl)
     }
   }
 
@@ -671,13 +693,27 @@
     const video = document.getElementById(`signature-video-${index}`);
     navigator.mediaDevices.getUserMedia({ video: true })
       .then(stream => video.srcObject = stream)
-      .catch(() => alert("Camera not accessible for signature"));
+      .catch(() => {
+         Swal.fire({
+    icon: "error",
+    title: "Camera Not Accessible",
+    text: "Signature capture failed.",
+    confirmButtonText: "close",
+    confirmButtonColor: "#d33"
+  })
+      });
   }
 
   function captureSignature(index) {
     const video = document.getElementById(`signature-video-${index}`);
     if (!video.srcObject) {
-      alert(" No camera stream for signature");
+      Swal.fire({
+        icon: "error",
+        title: "No Camera Stream",
+        text: "Signature capture not possible.",
+        confirmButtonText: "close",
+        confirmButtonColor: "#d33"
+      });
       return;
     }
     const canvas = document.createElement("canvas");
@@ -717,13 +753,11 @@
       navigator.geolocation.getCurrentPosition(
         () => openPhotoCamera(index),
         () => {
-          alert(" Location access denied! Cannot capture photo.");
-          bootstrap.Modal.getInstance(modalEl).hide();
+          showErrorAndCloseModal("Location access denied!","Location access denied! Cannot capture photo.",modalEl)
         }
       );
     } else {
-      alert("Geolocation not supported");
-      bootstrap.Modal.getInstance(modalEl).hide();
+      showErrorAndCloseModal("Geolocation not supported","Location access denied! Cannot capture photo.",modalEl)
     }
   }
 
@@ -731,13 +765,27 @@
     const video = document.getElementById(`photo-video-${index}`);
     navigator.mediaDevices.getUserMedia({ video: true })
       .then(stream => video.srcObject = stream)
-      .catch(() => alert("Camera not accessible for photo"));
+      .catch(() => {
+        Swal.fire({
+        icon: "error",
+        title: "Camera not accessible",
+        text: "Photo capture not possible.",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#d33"
+      })
+      });
   }
 
   function capturePhoto(index) {
     const video = document.getElementById(`photo-video-${index}`);
     if (!video.srcObject) {
-      alert(" No camera stream for photo");
+       Swal.fire({
+        icon: "error",
+        title: "No Camera Stream",
+        text: "Photo capture not possible.",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#d33"
+      });
       return;
     }
     if (navigator.geolocation) {
@@ -747,11 +795,23 @@
           document.getElementById(`longitude-${index}`).value = position.coords.longitude;
         },
         () => {
-          alert("Location permission denied.");
+           Swal.fire({
+        icon: "error",
+        title: "Location permission denied.",
+        text: "Photo capture not possible.",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#d33"
+      })
         }
       );
     } else {
-      alert("Geolocation not supported.");
+       Swal.fire({
+        icon: "error",
+        title: "Geolocation not supported.",
+        text: "Photo capture not possible.",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#d33"
+      })
     }
     const canvas = document.createElement("canvas");
     canvas.width = video.videoWidth || 200;
@@ -857,7 +917,7 @@
 
     // Photo file upload (unchanged)
     directors.forEach(function (director, index) {
-      if (paramId === director._id) {
+      if (paramId === director.directorId) {
         var photoFile = document.getElementById('photo-file-' + index);
         var photoCanvas = document.getElementById('canvas-photo-' + index);
         var photoPreview = document.getElementById('photo-preview-' + index);
@@ -909,7 +969,7 @@
     const payloads = [];
 
     directorData.forEach((director, index) => {
-      if (director._id === paramId) {
+      if (director.directorId === paramId) {
         const signature = document.getElementById(`signature-input-${index}`).value;
         const photo = document.getElementById(`photo-input-${index}`).value;
         const latitude = document.getElementById(`latitude-${index}`).value;
@@ -920,6 +980,7 @@
 console.log(signature)
 console.log(photo)
         if (!signature || !photo) {
+            document.getElementById("loading_main").style.display = "none";
             Swal.fire({
         title: 'Missing Signature & Photo',
         text: 'Please capture your signature and upload a photo before submitting.',
@@ -929,6 +990,7 @@ console.log(photo)
           return;
         }
          if (payloads?.[0]?.selectedValue === null) {
+            document.getElementById("loading_main").style.display = "none";
            Swal.fire({
         title: 'Error!',
         text: 'You cannot select Grey Listed Countries or Blacklisted Countries while also selecting No One from both list.',
@@ -938,6 +1000,7 @@ console.log(photo)
       return;
     }
     if (!greyList?.length || !blackList?.length) {
+        document.getElementById("loading_main").style.display = "none";
        Swal.fire({
         title: 'Error!',
         text: 'You cannot select Grey Listed Countries or Blacklisted Countries while also selecting No One from both list. Please review your choices and ensure they are consistent',
@@ -957,7 +1020,7 @@ console.log(photo)
       //   }
 
         payloads.push({
-          directorID: director._id,
+          directorID: director.directorId,
           name: director.name,
           email: director.email_id,
           sig_image: signature,        // Signature image base64
@@ -980,6 +1043,7 @@ console.log(photo)
 
 
 if (!payloads.length) {
+    document.getElementById("loading_main").style.display = "none";
   Swal.fire({
     title: "No Data",
     text: "No directors found to submit.",
@@ -991,8 +1055,6 @@ if (!payloads.length) {
    
 
  try {
-    document.getElementById("loading_main").style.display = "flex";
-
   const results = await Promise.all(
     payloads.map(async (data) => {
       try {
@@ -1004,15 +1066,12 @@ if (!payloads.length) {
 
         if (!res.ok) {
           return { success: false, message: `HTTP ${res.status}` };
-           
         }
 
         return await res.json();
       } catch (e) {
         console.error("Network error:", e);
         return { success: false, message: "Network error" };
-      } finally{
-         document.getElementById("loading_main").style.display = "none";
       }
     })
   );
@@ -1023,32 +1082,37 @@ if (!payloads.length) {
   const allSuccess = results.every(r => r && r.success);
   const failedOnes = results.filter(r => !r.success);
 
-  if (allSuccess) {
+ if (allSuccess) {
     Swal.fire({
-      title: "Success",
-      text: "All submissions completed. PDF will be generated.",
       icon: "success",
+      title: "Submitted successfully",
+      text: "PDF will be generated.",
       confirmButtonText: "OK",
+      confirmButtonColor: "#3085d6"
     }).then(() => {
-      // redirect if needed
+      // ✅ Agar redirect karna ho
       // window.location.href = "/download-pdf";
     });
   } else {
     Swal.fire({
-      title: "Partial Failure",
-      text: `Some submissions failed. (${failedOnes.length} failed)`,
       icon: "warning",
-      confirmButtonText: "OK",
+      title: "Some submissions failed",
+      text: "Please check and try again.",
+      confirmButtonText: "Close",
+      confirmButtonColor: "#f0ad4e"
     });
   }
 } catch (err) {
-  console.error("Unexpected error:", err);
+  console.error(err);
   Swal.fire({
-    title: "Error",
-    text: "Submission error occurred.",
     icon: "error",
-    confirmButtonText: "OK",
+    title: "Submission Error",
+    text: "Something went wrong. Please try again.",
+    confirmButtonText: "Close",
+    confirmButtonColor: "#d33"
   });
+}finally{
+  document.getElementById("loading_main").style.display = "none";
 }
 
   }

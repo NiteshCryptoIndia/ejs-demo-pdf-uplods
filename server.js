@@ -7,7 +7,7 @@ const puppeteer = require('puppeteer');
 // const { PDFDocument } = require('pdf-lib');
 const axios = require('axios');
 const app = express();
-const PORT = 3000;
+const PORT = 3005;
 const { PDFDocument, rgb, StandardFonts } = require("pdf-lib");
 // Preview route: renders preview.ejs with all form data
 app.post('/preview', async (req, res) => {
@@ -776,6 +776,172 @@ app.get('/sanctions-pdf/link-send-email',(req,res)=>{
       photoAt: "25/08/2025, 11:35 AM" }
   ],
 
+});
+
+})
+
+
+
+
+
+
+
+app.get('/live-loa', (req, res) => {
+  // Example data, replace with your actual data source
+  const mainTrader = [
+    {
+      name: "AJAY KUMAR JANGID",
+      panNumber: "CJPPJ1623Q",
+      phone: "8560977371",
+      email_id: "ajay@cryptoindia.in",
+
+    }
+    // Add more directors as needed
+  ];
+  const directors = [
+
+    {
+      directorId: "6880a1b5986ee32d03d1a14a",
+      _id: "6880a1b5986ee32d03d1a14a",
+      name: "AJAY KUMAR JANGID",
+      panNumber: "CJPPJ1623Q",
+      phone: "8560977371",
+      email_id: "ajay@cryptoindia.in",
+      signature: "",
+      photo: "",
+      signatureDate: "",
+      photoDate: "",
+      photoId: ""
+    },
+    {
+      directorId: "6880a1b5986ee32d03d1a14b",
+      _id: "6880a1b5986ee32d03d1a14b",
+      name: "Nitesh Kumar Kumawat",
+      panNumber: "NITPJ1623Q",
+      phone: "8560977371",
+      email_id: "Nitesh@cryptoindia.in",
+      signature: "",
+      photo: "",
+      signatureDate: "",
+      photoDate: "",
+      photoId: ""
+    }
+
+  ];
+  res.render('live_resolution', {
+    // token: "123456LM",
+    // userId: "6880a1b5986ee32d03d1a14a",
+    // paramId: "6880a1b5986ee32d03d1a14a",
+    tokenValid:true,
+    entityName: "Entity Name Here",
+    companyName: "CRYPTO INDIA (INCRYP BLOCKCHAIN PRIVATE LIMITED)",
+    date: "25/08/2025",
+    time: "10:00 AM",
+    address: "Your Address",
+    docId: "DOC123456",
+    directors,
+    mainTrader,
+    paramId: '6880a1b5986ee32d03d1a14a',
+    token: 'token',
+    userId: 'userId',
+    directorDetails: directors,
+
+  });
+});
+
+
+app.get('/live-declration',(req,res)=>{
+  res.render("live_declaration", {
+  entityName: "Entity Name Here",
+  companyName: "ABC Pvt Ltd",
+  resolutionDate: "25-08-2025",
+  date: "25-08-2025",
+  resolutionTime: "11:00 AM",
+  companyAddress: "New Delhi, India",
+  paramId:"6880a1b5986ee32d03d1a14a",
+  docId:"6880a1b5986ee32d03d1a14a",
+  userId :"6880a1b5986ee32d03d1a14a",
+  token:"6880a1b5986ee32d03d1a14a",
+  tokenValid:true,
+  authorizedPersons: [
+    { name: "Ramesh Kumar", pan: "ABCDE1234F", phone: "9876543210", email: "ramesh@test.com" }
+  ],
+  directors: [
+    {
+      directorId: "6880a1b5986ee32d03d1a14a",
+      _id: "6880a1b5986ee32d03d1a14a",
+      name: "AJAY KUMAR JANGID",
+      panNumber: "CJPPJ1623Q",
+      phone: "8560977371",
+      email_id: "ajay@cryptoindia.in",
+      signature: "https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg", 
+      signedAt: "25/08/2025, 11:30 AM", 
+      photo: "https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg", 
+      photoAt: "25/08/2025, 11:35 AM" }
+  ],
+  mainTrader: [
+    {
+      directorId: "6880a1b5986ee32d03d1a14a",
+      _id: "6880a1b5986ee32d03d1a14a",
+      name: "AJAY KUMAR JANGID",
+      panNumber: "CJPPJ1623Q",
+      phone: "8560977371",
+      email_id: "ajay@cryptoindia.in",
+      signature: "https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg", 
+      signedAt: "25/08/2025, 11:30 AM", 
+      photo: "https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg", 
+      photoAt: "25/08/2025, 11:35 AM" }
+  ]
+});
+
+})
+
+
+
+app.get('/live-sanctions',(req,res)=>{
+  res.render("live_sanctionaire", {
+  entityName: "Entity Name Here",
+  RegistionNumber:'5436435743755467345743',
+  companyName: "ABC Pvt Ltd",
+  resolutionDate: "25-08-2025",
+  resolutionTime: "11:00 AM",
+  address: "New Delhi, India",
+  CompanyOprationaddress: "New Delhi, India",
+  paramId:"6880a1b5986ee32d03d1a14a",
+  docId :"6880a1b5986ee32d03d1a14a",
+  token :"6880a1b5986ee32d03d1a14a",
+  userId :"6880a1b5986ee32d03d1a14a",
+  tokenValid:false,
+  date:"21-09-25",
+  authorizedPersons: [
+    { name: "Ramesh Kumar", pan: "ABCDE1234F", phone: "9876543210", email: "ramesh@test.com" }
+  ],
+  mainTrader: [
+    {
+      directorId: "6880a1b5986ee32d03d1a14a",
+      _id: "6880a1b5986ee32d03d1a14a",
+      name: "AJAY KUMAR JANGID",
+      panNumber: "CJPPJ1623Q",
+      phone: "8560977371",
+      email_id: "ajay@cryptoindia.in",
+      signature: "https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg", 
+      signedAt: "25/08/2025, 11:30 AM", 
+      photo: "https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg", 
+      photoAt: "25/08/2025, 11:35 AM" }
+  ],
+  directors: [
+    {
+      directorId: "6880a1b5986ee32d03d1a14a",
+      _id: "6880a1b5986ee32d03d1a14a",
+      name: "AJAY KUMAR JANGID",
+      panNumber: "CJPPJ1623Q",
+      phone: "8560977371",
+      email_id: "ajay@cryptoindia.in",
+      signature: "https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg", 
+      signedAt: "25/08/2025, 11:30 AM", 
+      photo: "https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg", 
+      photoAt: "25/08/2025, 11:35 AM" }
+  ]
 });
 
 })
